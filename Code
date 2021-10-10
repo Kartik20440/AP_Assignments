@@ -1,0 +1,193 @@
+import java.util.*;
+import java.io.*;
+import java.lang.*;
+import java.util.Scanner;
+import java.lang.Math;
+class Vaccine{
+    Vector<String> name = new Vector<>();
+    Vector<Integer> no = new Vector<>();
+    Vector<Integer> gap = new Vector<>();
+    void add_vac(String n, int nu, int g){
+        name.add(n);
+        no.add(nu);
+        gap.add(g);
+        System.out.println("Vaccine Name: " +n+ ", Number of Doses: "+nu+", Gap Between Doses: "+g);
+    }
+}
+class Hospital{
+    Vector<String> name = new Vector<>();
+    Vector<Integer> pincode = new Vector<>();
+    Vector<Integer> id = new Vector<>();
+    int ran = 100000;
+    void reg_hosp(String n, int p){
+        name.add(n);
+        pincode.add(p);
+        ran++;
+        id.add(ran);
+        System.out.println("Hospital Name: "+ n+ ", PinCode: "+p+", Unique ID: "+ran);
+    }
+}
+class Citizen{
+    Vector<String> name = new Vector<>();
+    Vector<Integer> age = new Vector<>();
+    Vector<Long> id = new Vector<>();
+    Vector<String> status = new Vector<>();
+    void reg_cit(String n, int a, long i){
+        if(a>= 18){
+            name.add(n);
+            age.add(a);
+            id.add(i);
+            status.add("REGISTERED");
+            System.out.println("Citizen Name: " + n + ", Age: " +a +", Unique ID: "+i);
+        }
+        else{
+            System.out.println("Only above 18 are allowed");
+        }
+    }
+}
+class Slots{
+    Vector<String> name = new Vector<>();
+    Vector<Integer> id = new Vector<>();
+    Vector<Integer> day = new Vector<>();
+    Vector<Integer> qty = new Vector<>();
+    Hospital h = new Hospital() ;
+    Citizen c = new Citizen() ;
+    Vaccine v = new Vaccine() ;
+    Scanner nsc = new Scanner(System.in);
+    void add_slot(int i, int d, int q, String na){
+        id.add(i);
+        day.add(d);
+        qty.add(q);
+        name.add(na);
+        System.out.println("Slot added by Hospital "+i+" for Day: "+d+", Available Quantity: "+q+" of Vaccine "+na);
+    }
+    void check_slot(int x){
+        int cnt=0;
+        for (int i = 0; i < id.size(); i++) {
+            if(id.get(i) == x){
+                System.out.println(cnt+"->Day: "+day.get(i)+" Vaccine: "+name.get(i)+" Available Qty: "+qty.get(i));
+                cnt=cnt+1;
+            }
+        }
+    }
+    void book_slot_pincode(int pnc , Hospital all_hosp, Slots all_slot ){
+        h = all_hosp ;
+        for(int i=0; i<h.pincode.size(); i++){
+            if(h.pincode.get(i) == pnc){
+                System.out.println(h.id.get(i)+" "+ h.name.get(i));
+            }
+        }
+        System.out.println("Enter hospital id: ");
+        int nid = nsc.nextInt();
+        all_slot.check_slot(nid);
+    }
+}
+class Main{
+	public static void main (String[] args) {
+	    Scanner sc = new Scanner(System.in);
+	    int opt = 0;
+        Vaccine vac = new Vaccine();
+        Hospital hos = new Hospital();
+        Citizen cit = new Citizen();
+        Slots sl1 = new Slots();
+        while(opt != 8){
+            System.out.println("___________________________");
+            System.out.println("Welcome to Covin portal");
+            System.out.println("___________________________");
+            System.out.println("1. Add Vaccine");
+            System.out.println("2. Register Hospital");
+            System.out.println("3. Register Citizen");
+            System.out.println("4. Add Slot for Vaccination");
+            System.out.println("5. Book Slot for Vaccination");
+            System.out.println("6. List all slots for a hospital");
+            System.out.println("7. Check Vaccination Status");
+            System.out.println("8. Exit");
+            System.out.println("___________________________\n");
+            System.out.println("Enter the number corresponding to the Query: ");
+            opt = sc.nextInt();
+            switch(opt){
+                case 1:
+                    System.out.println("Vaccine Name: ");
+                    String name1 = sc.next();
+                    System.out.println("Number of doses: ");
+                    int doses = sc.nextInt();
+                    if(doses>1){
+                        System.out.println("Gap between doses: ");
+                        int gap = sc.nextInt();
+                        vac.add_vac(name1, doses, gap);
+                    }
+                    else{
+                        vac.add_vac(name1,doses,0);
+                    }
+                    break;
+                case 2:
+                    System.out.println("Hospital Name: ");
+                    String name2 = sc.next();
+                    System.out.println("Pincode: ");
+                    int pin = sc.nextInt();
+                    hos.reg_hosp(name2, pin);
+                    break;
+                case 3:
+                    System.out.println("Citizen Name: ");
+                    String name3 = sc.next();
+                    System.out.println("Age: ");
+                    int age = sc.nextInt();
+                    System.out.println("12 Digit Unique ID: ");
+                    long id = sc.nextLong();
+                    cit.reg_cit(name3, age, id);
+                    break;
+                case 4:
+                    System.out.println("Enter Hospital ID: ");
+                    int i = sc.nextInt();
+                    System.out.println("Enter number of Slots to be added: ");
+                    int no_slot = sc.nextInt();
+                    while(no_slot>0){
+                        System.out.println("Enter Day Number: ");
+                        int d = sc.nextInt();
+                        System.out.println("Enter Quantity: ");
+                        int q = sc.nextInt();
+                        System.out.println("Select Vaccine-");
+                        for(int j=0; j<vac.name.size();j++){
+                            System.out.println(j+ ". "+vac.name.get(j));
+                        }
+                        int in = sc.nextInt();
+                        if(in < vac.name.size()){
+                            sl1.add_slot(i, d, q,vac.name.get(in) );
+                        }
+                        else{
+                            System.out.println("Wrong Vaccine Name");
+                        }
+                        no_slot--;
+                    }
+                    break;
+                case 5:
+                    System.out.println("Enter patient Unique ID: ");
+                    long id1 = sc.nextLong();
+                    System.out.println("1. Search by area");
+                    System.out.println("2. Search by Vaccine");
+                    System.out.println("3. Exit");
+                    System.out.println("Enter option:");
+                    int op = sc.nextInt();
+                    if(op == 1){
+                        System.out.println("Enter PinCode: ");
+                        int pc1 = sc.nextInt();
+                        sl1.book_slot_pincode(pc1,hos,sl1);
+                    }
+                    else if(op == 2){
+                        System.out.println("Enter Vaccine name: ");
+                        String vn = sc.next();
+                        //sl1.book_slot_vaccine(vn,hos,sl1);
+                    }
+                    else{
+                        break;
+                    }
+                    break;
+                case 6:
+                    System.out.println("Enter Hospital Id: ");
+                    int x = sc.nextInt();
+                    sl1.check_slot(x);
+                    break;
+	    }
+    }
+}
+}
