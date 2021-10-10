@@ -91,7 +91,7 @@ class Slots{
             }
         }
     }
-    void book_slot_pincode(int pnc , Hospital all_hosp, Slots all_slot, long unid ){
+    void book_slot_pincode(int pnc , Hospital all_hosp, Slots all_slot ){
         h = all_hosp ;
         for(int i=0; i<h.pincode.size(); i++){
             if(h.pincode.get(i) == pnc){
@@ -101,9 +101,6 @@ class Slots{
         System.out.println("Enter hospital id: ");
         int nid = nsc.nextInt();
         all_slot.check_slot(nid);
-        System.out.println("Choose Slot: ");
-        int st = nsc.nextInt();
-        System.out.println(all_slot.check_slot(nid));
     }
 }
 class Main{
@@ -135,9 +132,14 @@ class Main{
                     String name1 = sc.next();
                     System.out.println("Number of doses: ");
                     int doses = sc.nextInt();
-                    System.out.println("Gap between doses: ");
-                    int gap = sc.nextInt();
-                    vac.add_vac(name1, doses, gap);
+                    if(doses>1){
+                        System.out.println("Gap between doses: ");
+                        int gap = sc.nextInt();
+                        vac.add_vac(name1, doses, gap);
+                    }
+                    else{
+                        vac.add_vac(name1,doses,0);
+                    }
                     break;
                 case 2:
                     System.out.println("Hospital Name: ");
@@ -190,12 +192,12 @@ class Main{
                     if(op == 1){
                         System.out.println("Enter PinCode: ");
                         int pc1 = sc.nextInt();
-                        sl1.book_slot_pincode(pc1,hos,sl1,id1);
+                        sl1.book_slot_pincode(pc1,hos,sl1);
                     }
                     else if(op == 2){
                         System.out.println("Enter Vaccine name: ");
                         String vn = sc.next();
-                        //sl1.book_slot_vaccine(vn);
+                        //sl1.book_slot_vaccine(vn,hos,sl1);
                     }
                     else{
                         break;
