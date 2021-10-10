@@ -32,6 +32,9 @@ class Citizen{
     Vector<Integer> age = new Vector<>();
     Vector<Long> id = new Vector<>();
     Vector<String> status = new Vector<>();
+    Vector<String> vacname = new Vector<>();
+    Vector<Integer> noofdoses = new Vector<>();
+    Vector<Integer> duedate = new Vector<>();
     void reg_cit(String n, int a, long i){
         if(a>= 18){
             name.add(n);
@@ -42,6 +45,24 @@ class Citizen{
         }
         else{
             System.out.println("Only above 18 are allowed");
+        }
+    }
+    void check_vacstatus(long unqid){
+        for(int i=0; i<id.size(); i++){
+            if(id.get(i) == unqid){
+                if(status.get(i) == "REGISTERED"){
+                    System.out.println("Citizen REGISTERED");
+                }
+                if(status.get(i) == "PARTIALLY VACCINATED"){
+                    System.out.println("Vaccine Given: "+ vacname.get(i));
+                    System.out.println("Number of Doses given: "+ noofdoses.get(i));
+                    System.out.println("Next Dose due date: "+ duedate.get(i));
+                }
+                if(status.get(i) == "FULLY VACCINATED"){
+                    System.out.println("Vaccine Given: "+ vacname.get(i));
+                    System.out.println("Number of Doses given: "+ noofdoses.get(i));
+                }
+            }
         }
     }
 }
@@ -70,7 +91,7 @@ class Slots{
             }
         }
     }
-    void book_slot_pincode(int pnc , Hospital all_hosp, Slots all_slot ){
+    void book_slot_pincode(int pnc , Hospital all_hosp, Slots all_slot, long unid ){
         h = all_hosp ;
         for(int i=0; i<h.pincode.size(); i++){
             if(h.pincode.get(i) == pnc){
@@ -80,6 +101,9 @@ class Slots{
         System.out.println("Enter hospital id: ");
         int nid = nsc.nextInt();
         all_slot.check_slot(nid);
+        System.out.println("Choose Slot: ");
+        int st = nsc.nextInt();
+        System.out.println(all_slot.check_slot(nid));
     }
 }
 class Main{
@@ -111,14 +135,9 @@ class Main{
                     String name1 = sc.next();
                     System.out.println("Number of doses: ");
                     int doses = sc.nextInt();
-                    if(doses>1){
-                        System.out.println("Gap between doses: ");
-                        int gap = sc.nextInt();
-                        vac.add_vac(name1, doses, gap);
-                    }
-                    else{
-                        vac.add_vac(name1,doses,0);
-                    }
+                    System.out.println("Gap between doses: ");
+                    int gap = sc.nextInt();
+                    vac.add_vac(name1, doses, gap);
                     break;
                 case 2:
                     System.out.println("Hospital Name: ");
@@ -171,12 +190,12 @@ class Main{
                     if(op == 1){
                         System.out.println("Enter PinCode: ");
                         int pc1 = sc.nextInt();
-                        sl1.book_slot_pincode(pc1,hos,sl1);
+                        sl1.book_slot_pincode(pc1,hos,sl1,id1);
                     }
                     else if(op == 2){
                         System.out.println("Enter Vaccine name: ");
                         String vn = sc.next();
-                        //sl1.book_slot_vaccine(vn,hos,sl1);
+                        //sl1.book_slot_vaccine(vn);
                     }
                     else{
                         break;
@@ -186,6 +205,11 @@ class Main{
                     System.out.println("Enter Hospital Id: ");
                     int x = sc.nextInt();
                     sl1.check_slot(x);
+                    break;
+                case 7:
+                    System.out.println("Enter Patient ID: ");
+                    long uniid = sc.nextLong();
+                    cit.check_vacstatus(uniid);
                     break;
 	    }
     }
