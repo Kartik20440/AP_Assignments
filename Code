@@ -377,8 +377,10 @@ class Main{
                 case 4:
                     System.out.println("Enter Registered Hospital ID: ");
                     int i = sc.nextInt();
+                    int x = -1 ; 
                     for(int p=0; p<hos.id.size(); p++){
                         if(hos.id.get(p) == i){
+                            x = 0 ; 
                             System.out.println("Enter number of Slots to be added: ");
                         int no_slot = sc.nextInt();
                         while(no_slot>0){
@@ -401,14 +403,19 @@ class Main{
                             }
                         }
                     }
+                    if(x==-1){
+                        System.out.println("No Hospital with ID "+ i +" is registered");
+                    }
                     
                     break;
                     
                 case 5:
                     System.out.println("Enter Registered Patient Unique ID: ");
                     long id1 = sc.nextLong();
+                    int tvar = -1 ;
                     for(int k=0; k<cit.id.size();k++){
                         if(cit.id.get(k) == id1){
+                            tvar = 0;
                             System.out.println("1. Search by area");
                             System.out.println("2. Search by Vaccine");
                             System.out.println("3. Exit");
@@ -429,11 +436,14 @@ class Main{
                             }
                         }
                     }
+                    if(tvar ==-1){
+                        System.out.println("No Patient with ID "+ id1 +" is registered");
+                    }
                     break;
                 case 6:
                     System.out.println("Enter Hospital Id: ");
-                    int x = sc.nextInt();
-                    sl1.check_slot(x);
+                    int inpid = sc.nextInt();
+                    sl1.check_slot(inpid);
                     break;
                 case 7:
                     System.out.println("Enter Patient ID: ");
