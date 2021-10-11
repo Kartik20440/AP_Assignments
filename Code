@@ -111,6 +111,7 @@ class Slots{
             }
         }
     }
+    
     void book_slot_pincode(int pnc ,Citizen all_cit, Vaccine all_vac, Hospital all_hosp, Slots all_slot, long unid){
         h = all_hosp;
         v = all_vac;
@@ -162,10 +163,10 @@ class Slots{
                          return ; 
         }
         
-          if(c.status.get(citizen_id_index) == "PARTIALLY VACCINATED" && c.duedate.get(citizen_id_index) > all_slot.day.get(hosp_id_index)){
-                   System.out.println("No Slot Available");
-                   return ; 
-                }
+        if(c.status.get(citizen_id_index) == "PARTIALLY VACCINATED" && c.duedate.get(citizen_id_index) > all_slot.day.get(hosp_id_index)){
+           System.out.println("No Slot Available");
+           return ; 
+        }
         
         
         all_slot.check_slot(nid);
@@ -177,20 +178,20 @@ class Slots{
         }
         int i_for_all = st ; 
                
-                int j = citizen_id_index ;
-                if(c.status.get(j) == "REGISTERED"){
-                    c.duedate.set(j , all_slot.day.get(i_for_all) + v.gap.get(vaccine_index) ) ; 
-                    c.status.set(j,"PARTIALLY VACCINATED");
-                    System.out.println(c.name.get(j) +" vaccinated with "+all_slot.name.get(i_for_all));
-                    c.vacname.add(all_slot.name.get(i_for_all));
-                    c.id_for_vacname.add(unid);
-                    all_slot.qty.set(st , all_slot.qty.get(st) -1) ; 
-                    c.noofdoses.set(j , 1) ; 
-                    if(c.noofdoses.get(j) == v.no.get(vaccine_index)){
-                        c.status.set(j,"FULLY VACCINATED");
-                    }
-                return ; 
+            int j = citizen_id_index ;
+            if(c.status.get(j) == "REGISTERED"){
+                c.duedate.set(j , all_slot.day.get(i_for_all) + v.gap.get(vaccine_index) ) ; 
+                c.status.set(j,"PARTIALLY VACCINATED");
+                System.out.println(c.name.get(j) +" vaccinated with "+all_slot.name.get(i_for_all));
+                c.vacname.add(all_slot.name.get(i_for_all));
+                c.id_for_vacname.add(unid);
+                all_slot.qty.set(st , all_slot.qty.get(st) -1) ; 
+                c.noofdoses.set(j , 1) ; 
+                if(c.noofdoses.get(j) == v.no.get(vaccine_index)){
+                    c.status.set(j,"FULLY VACCINATED");
                 }
+            return ; 
+            }
               
                 
                 if(c.status.get(j) == "PARTIALLY VACCINATED" && vaccine_used.equals(all_slot.name.get(i_for_all)) && (c.noofdoses.get(j) + 1) ==v.no.get(vaccine_index)) {
