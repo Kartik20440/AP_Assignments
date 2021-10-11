@@ -144,14 +144,6 @@ class Slots{
         }
         int hosp_id_index = -1 ;
         for( int k = 0 ; k< all_slot.id.size() ; k++){
-            // if(all_slot.id.get(k) == nid && c.status.get(citizen_id_index) == "REGISTERED"){
-            //     hosp_id_index = k ; 
-            //     break ; 
-            // }
-            // else if(all_slot.id.get(k) == nid && vaccine_used == all_slot.name.get(k) && c.status.get(citizen_id_index) != "REGISTERED" ){
-            //     hosp_id_index = k ; 
-            //     break ; 
-            // }
             if(all_slot.id.get(k) == nid){
                 if(vaccine_used.equals(all_slot.name.get(k))){
                     hosp_id_index = k ;
@@ -179,31 +171,13 @@ class Slots{
         all_slot.check_slot(nid);
         System.out.println("Choose Slot: ");
         int st = nsc.nextInt();
-        // int cnt = 0 ;
-        // int i_for_all =0;
-        // for(int i = 0; i < all_slot.id.size(); i++){
-        //     if(all_slot.id.get(i) == nid){
-        //         if(cnt == st){
-        //             i_for_all = i; 
-        //             break ; 
-        //         }
-        //         cnt=cnt+1;
-        //     }
-        // }
-        //System.out.println(i_for_all);
-        //System.out.println(st);
          if(all_slot.qty.get(st)==0){
             System.out.println("No Slot Available");
                          return ; 
         }
         int i_for_all = st ; 
-        // for(int j=0; j<c.id.size(); j++){
-        //     if(c.id.get(j) == unid){
-                //all_slot.qty.get(i_for_all)
                
                 int j = citizen_id_index ;
-                //c.duedate.set(j, all_slot.day.get(i_for_all) + v.gap.get(vaccine_index)  ); 
-                
                 if(c.status.get(j) == "REGISTERED"){
                     c.duedate.set(j , all_slot.day.get(i_for_all) + v.gap.get(vaccine_index) ) ; 
                     c.status.set(j,"PARTIALLY VACCINATED");
@@ -238,15 +212,10 @@ class Slots{
                 }
                 
                  else if(c.status.get(j) == "PARTIALLY VACCINATED" && !(vaccine_used.equals(all_slot.name.get(i_for_all)))){
-                    //c.status.set(j,"FULLY VACCINATED");
                     System.out.println("Vaccine mixing is not allowed");
                     return ; 
                 }
                
-                
-        //     }
-        // }
-        
     }
     
     void book_slot_vaccine(String vn ,Citizen all_cit, Vaccine all_vac, Hospital all_hosp, Slots all_slot, long unid){
@@ -255,12 +224,8 @@ class Slots{
         c = all_cit;
          
         for(int i=0; i<all_slot.name.size(); i++){
-            //System.out.println(all_slot.name.get(i));
             if(all_slot.name.get(i).equals(vn)){
-              //  System.out.println(all_slot.name.get(i));
-                for( int k = 0 ;k < h.name.size() ; k++){
-                //    System.out.println(h.id.get(k)) ; 
-                  //  System.out.println(all_slot.id.get(i)) ; 
+                for( int k = 0 ;k < h.name.size() ; k++){ 
                     int x = h.id.get(k);
                     int y = all_slot.id.get(i) ; 
                     if(x == y  ){
@@ -272,12 +237,6 @@ class Slots{
         System.out.println("Enter hospital id: ");
         int nid = nsc.nextInt();
          String vaccine_used =vn; 
-                // for( int k = 0 ; k<c.id_for_vacname.size() ; k++){
-                //       if(c.id_for_vacname.get(k)==unid){
-                //           vaccine_used = c.vacname.get(k) ;
-                //           break ; 
-                //       }
-                // }
         int vaccine_index =0; 
                 for( int k = 0; k<v.name.size() ; k++){
                     if(vaccine_used.equals(v.name.get(k))){
@@ -316,26 +275,9 @@ class Slots{
         all_slot.check_slot(nid , vn);
         System.out.println("Choose Slot: ");
         int st = nsc.nextInt();
-        // int cnt = 0 ;
-        // int i_for_all =0;
-        // for(int i = 0; i < all_slot.id.size(); i++){
-        //     if(all_slot.id.get(i) == nid){
-        //         if(cnt == st){
-        //             i_for_all = i; 
-        //             break ; 
-        //         }
-        //         cnt=cnt+1;
-        //     }
-        // }
-        // for(int j=0; j<c.id.size(); j++){
-        //     if(c.id.get(j) == unid){
-                //all_slot.qty.get(i_for_all)
-               // System.out.println(i_for_all);
-        //System.out.println(st);
         int i_for_all = st ; 
                
-                int j = citizen_id_index ;
-                //c.duedate.set(j, all_slot.day.get(i_for_all) + v.gap.get(vaccine_index)  ); 
+                int j = citizen_id_index ; 
                 
                 if(c.status.get(j) == "REGISTERED"){
                     c.duedate.set(j , all_slot.day.get(i_for_all) + v.gap.get(vaccine_index) ) ; 
@@ -371,7 +313,7 @@ class Slots{
                 }
                 
                  else if(c.status.get(j) == "PARTIALLY VACCINATED" && !(vaccine_used.equals(all_slot.name.get(i_for_all)))){
-                    //c.status.set(j,"FULLY VACCINATED");
+                    
                     System.out.println("Vaccine mixing is not allowed");
                     return ; 
                 }
@@ -434,27 +376,33 @@ class Main{
                 case 4:
                     System.out.println("Enter Hospital ID: ");
                     int i = sc.nextInt();
-                    System.out.println("Enter number of Slots to be added: ");
-                    int no_slot = sc.nextInt();
-                    while(no_slot>0){
-                        System.out.println("Enter Day Number: ");
-                        int d = sc.nextInt();
-                        System.out.println("Enter Quantity: ");
-                        int q = sc.nextInt();
-                        System.out.println("Select Vaccine-");
-                        for(int j=0; j<vac.name.size();j++){
-                            System.out.println(j+ ". "+vac.name.get(j));
+                    for(int p=0; p<hos.id.size(); p++){
+                        if(hos.id.get(p) == i){
+                            System.out.println("Enter number of Slots to be added: ");
+                        int no_slot = sc.nextInt();
+                        while(no_slot>0){
+                            System.out.println("Enter Day Number: ");
+                            int d = sc.nextInt();
+                            System.out.println("Enter Quantity: ");
+                            int q = sc.nextInt();
+                            System.out.println("Select Vaccine-");
+                            for(int j=0; j<vac.name.size();j++){
+                                System.out.println(j+ ". "+vac.name.get(j));
+                            }
+                            int in = sc.nextInt();
+                            if(in < vac.name.size()){
+                                sl1.add_slot(i, d, q,vac.name.get(in));
+                            }
+                            else{
+                                System.out.println("Wrong Vaccine Name");
+                            }
+                            no_slot--;
+                            }
                         }
-                        int in = sc.nextInt();
-                        if(in < vac.name.size()){
-                            sl1.add_slot(i, d, q,vac.name.get(in));
-                        }
-                        else{
-                            System.out.println("Wrong Vaccine Name");
-                        }
-                        no_slot--;
                     }
+                    
                     break;
+                    
                 case 5:
                     System.out.println("Enter patient Unique ID: ");
                     long id1 = sc.nextLong();
