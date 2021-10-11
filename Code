@@ -374,7 +374,7 @@ class Main{
                     cit.reg_cit(name3, age, id);
                     break;
                 case 4:
-                    System.out.println("Enter Hospital ID: ");
+                    System.out.println("Enter Registered Hospital ID: ");
                     int i = sc.nextInt();
                     for(int p=0; p<hos.id.size(); p++){
                         if(hos.id.get(p) == i){
@@ -404,25 +404,29 @@ class Main{
                     break;
                     
                 case 5:
-                    System.out.println("Enter patient Unique ID: ");
+                    System.out.println("Enter Registered Patient Unique ID: ");
                     long id1 = sc.nextLong();
-                    System.out.println("1. Search by area");
-                    System.out.println("2. Search by Vaccine");
-                    System.out.println("3. Exit");
-                    System.out.println("Enter option:");
-                    int op = sc.nextInt();
-                    if(op == 1){
-                        System.out.println("Enter PinCode: ");
-                        int pc1 = sc.nextInt();
-                        sl1.book_slot_pincode(pc1,cit,vac,hos,sl1,id1);
-                    }
-                    else if(op == 2){
-                        System.out.println("Enter Vaccine name: ");
-                        String vn = sc.next();
-                        sl1.book_slot_vaccine(vn,cit,vac,hos,sl1,id1);
-                    }
-                    else{
-                        break;
+                    for(int k=0; k<cit.id.size();k++){
+                        if(cit.id.get(k) == id1){
+                            System.out.println("1. Search by area");
+                            System.out.println("2. Search by Vaccine");
+                            System.out.println("3. Exit");
+                            System.out.println("Enter option:");
+                            int op = sc.nextInt();
+                            if(op == 1){
+                                System.out.println("Enter PinCode: ");
+                                int pc1 = sc.nextInt();
+                                sl1.book_slot_pincode(pc1,cit,vac,hos,sl1,id1);
+                            }
+                            else if(op == 2){
+                                System.out.println("Enter Vaccine name: ");
+                                String vn = sc.next();
+                                sl1.book_slot_vaccine(vn,cit,vac,hos,sl1,id1);
+                            }
+                            else{
+                                break;
+                            }
+                        }
                     }
                     break;
                 case 6:
