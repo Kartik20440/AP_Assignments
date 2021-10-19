@@ -299,6 +299,23 @@ class Assessment {
         }
         return size;
     }
+
+    public int printopenasses_help3() {
+        int size = 0;
+        for (int i = 0; i < probstat().size(); i++) {
+            if (probstatus().get(i).equals("Open")) {
+                size++;
+            }
+        }
+        if (quizstat().size() >= 1) {
+            for (int j = 0; j < quizstat().size(); j++) {
+                if (quizstatus().get(j).equals("Open")) {
+                    size++;
+                }
+            }
+        }
+        return size;
+    }
 }
 
 class Instructor implements viewlecfunc, viewassessfunc, commoncommentfunc {
@@ -653,11 +670,16 @@ class Main {
                                     break;
 
                                 case 6:
-                                    System.out.println("List of Open Assignments:");
-                                    I0.print_open_asses(assessment0);
-                                    System.out.println("Enter id of assignment to close: ");
-                                    int abc = sc.nextInt();
-                                    I0.close_assessment(assessment0, abc, 0);
+                                    if(assessment0.printopenasses_help3() > 0){
+                                        System.out.println("List of Open Assignments:");
+                                        I0.print_open_asses(assessment0);
+                                        System.out.println("Enter id of assignment to close: ");
+                                        int abc = sc.nextInt();
+                                        I0.close_assessment(assessment0, abc, 0);
+                                    }
+                                    else{
+                                        System.out.println("No Open Assessments Available");
+                                    }
                                     break;
                                 case 7:
                                     view_comment_func(I0, comment0);
@@ -784,11 +806,16 @@ class Main {
                                     }
                                     break;
                                 case 6:
-                                    System.out.println("List of Open Assignments:");
-                                    I1.print_open_asses(assessment0);
-                                    System.out.println("Enter id of assignment to close: ");
-                                    int abc = sc.nextInt();
-                                    I1.close_assessment(assessment0, abc, 0);
+                                    if(assessment0.printopenasses_help3() > 0){
+                                        System.out.println("List of Open Assignments:");
+                                        I0.print_open_asses(assessment0);
+                                        System.out.println("Enter id of assignment to close: ");
+                                        int abc = sc.nextInt();
+                                        I0.close_assessment(assessment0, abc, 0);
+                                    }
+                                    else{
+                                        System.out.println("No Open Assessments Available");
+                                    }
                                     break;
                                 case 7:
                                     view_comment_func(I1, comment0);
