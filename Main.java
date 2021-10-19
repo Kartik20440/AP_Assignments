@@ -32,9 +32,8 @@ class Comments {
 
     public void view_comm() {
         for (int i = 0; i < com.size(); i++) {
-            System.out.println(com.get(i));
+            System.out.println(com.get(i) +" - "+ name.get(i));
             System.out.println(date.get(i));
-            System.out.println(name.get(i));
             System.out.println("");
         }
     }
@@ -167,24 +166,24 @@ class Assessment {
         probstatus().add("Open");
         probsubmission.add("");
         probsubmissionstatus.add("Pending");
-        sa.pstat.add(ques);
-        sa.pmaxmarks.add(marks);
-        sa.psubmission.add("");
-        sa.pmarks.add(0);
-        sa.psubmissionstatus.add("Pending");
-        sa.pgradedby.add("");
-        sb.pstat.add(ques);
-        sb.pmaxmarks.add(marks);
-        sb.psubmission.add("");
-        sa.pmarks.add(0);
-        sb.psubmissionstatus.add("Pending");
-        sb.pgradedby.add("");
-        sc.pstat.add(ques);
-        sc.pmaxmarks.add(marks);
-        sc.psubmission.add("");
-        sa.pmarks.add(0);
-        sc.psubmissionstatus.add("Pending");
-        sb.pgradedby.add("");
+        sa.pstat().add(ques);
+        sa.pmaxmarks().add(marks);
+        sa.psubmission().add("");
+        sa.pmarks().add(0);
+        sa.psubmissionstatus().add("Pending");
+        sa.pgradedby().add("");
+        sb.pstat().add(ques);
+        sb.pmaxmarks().add(marks);
+        sb.psubmission().add("");
+        sa.pmarks().add(0);
+        sb.psubmissionstatus().add("Pending");
+        sb.pgradedby().add("");
+        sc.pstat().add(ques);
+        sc.pmaxmarks().add(marks);
+        sc.psubmission().add("");
+        sa.pmarks().add(0);
+        sc.psubmissionstatus().add("Pending");
+        sb.pgradedby().add("");
     }
 
     public void addquz(Student sa, Student sb, Student sc) {
@@ -196,21 +195,21 @@ class Assessment {
         quizstatus().add("Open");
         quizsubmission.add("");
         quizsubmissionstatus.add("Pending");
-        sa.qstat.add(q);
-        sa.qsubmission.add("");
-        sa.qmarks.add(0);
-        sa.qsubmissionstatus.add("Pending");
-        sa.qgradedby.add("");
-        sb.qstat.add(q);
-        sb.qsubmission.add("");
-        sa.qmarks.add(0);
-        sb.qsubmissionstatus.add("Pending");
-        sb.qgradedby.add("");
-        sc.qstat.add(q);
-        sc.qmarks.add(0);
-        sa.qsubmission.add("");
-        sc.qsubmissionstatus.add("Pending");
-        sc.qgradedby.add("");
+        sa.qstat().add(q);
+        sa.qsubmission().add("");
+        sa.qmarks().add(0);
+        sa.qsubmissionstatus().add("Pending");
+        sa.qgradedby().add("");
+        sb.qstat().add(q);
+        sb.qsubmission().add("");
+        sa.qmarks().add(0);
+        sb.qsubmissionstatus().add("Pending");
+        sb.qgradedby().add("");
+        sc.qstat().add(q);
+        sc.qmarks().add(0);
+        sa.qsubmission().add("");
+        sc.qsubmissionstatus().add("Pending");
+        sc.qgradedby().add("");
     }
 
     public void view_assessment() {
@@ -263,7 +262,7 @@ class Assessment {
     public void printopenasses_help(Student m) {
         int temp = 0;
         for (int i = 0; i < probstat().size(); i++) {
-            if (probstatus().get(i).equals("Open") && m.psubmissionstatus.get(i).equals("Pending")) {
+            if (probstatus().get(i).equals("Open") && m.psubmissionstatus().get(i).equals("Pending")) {
                 System.out.println(
                         "ID: " + temp + " Assignment: " + probstat().get(i) + " Max Marks: " + probmaxmarks().get(i));
                 temp++;
@@ -273,7 +272,7 @@ class Assessment {
         }
         if (quizstat().size() >= 1) {
             for (int j = 0; j < quizstat().size(); j++) {
-                if (quizstatus().get(j).equals("Open") && m.qsubmissionstatus.get(j).equals("Pending")) {
+                if (quizstatus().get(j).equals("Open") && m.qsubmissionstatus().get(j).equals("Pending")) {
                     System.out.println("ID: " + temp + " Question: " + quizstat().get(j));
                     temp++;
                 } else {
@@ -287,13 +286,13 @@ class Assessment {
     public int printopenasses_help2(Student m) {
         int size = 0;
         for (int i = 0; i < probstat().size(); i++) {
-            if (probstatus().get(i).equals("Open") && m.psubmissionstatus.get(i).equals("Pending")) {
+            if (probstatus().get(i).equals("Open") && m.psubmissionstatus().get(i).equals("Pending")) {
                 size++;
             }
         }
         if (quizstat().size() >= 1) {
             for (int j = 0; j < quizstat().size(); j++) {
-                if (quizstatus().get(j).equals("Open") && m.qsubmissionstatus.get(j).equals("Pending")) {
+                if (quizstatus().get(j).equals("Open") && m.qsubmissionstatus().get(j).equals("Pending")) {
                     size++;
                 }
             }
@@ -362,17 +361,52 @@ class Instructor implements viewlecfunc, viewassessfunc, commoncommentfunc {
 
 class Student implements viewlecfunc, viewassessfunc, commoncommentfunc {
     Scanner s = new Scanner(System.in);
-    ArrayList<String> qstat = new ArrayList<>();
-    ArrayList<String> pstat = new ArrayList<>();
-    ArrayList<String> qsubmission = new ArrayList<>();
-    ArrayList<String> psubmission = new ArrayList<>();
-    ArrayList<String> qsubmissionstatus = new ArrayList<>();
-    ArrayList<String> psubmissionstatus = new ArrayList<>();
-    ArrayList<Integer> pmarks = new ArrayList<>();
-    ArrayList<Integer> pmaxmarks = new ArrayList<>();
-    ArrayList<Integer> qmarks = new ArrayList<>();
-    ArrayList<String> pgradedby = new ArrayList<>();
-    ArrayList<String> qgradedby = new ArrayList<>();
+    private ArrayList<String> qstat = new ArrayList<>();
+    private ArrayList<String> pstat = new ArrayList<>();
+    private ArrayList<String> qsubmission = new ArrayList<>();
+    private ArrayList<String> psubmission = new ArrayList<>();
+    private ArrayList<String> qsubmissionstatus = new ArrayList<>();
+    private ArrayList<String> psubmissionstatus = new ArrayList<>();
+    private ArrayList<Integer> pmarks = new ArrayList<>();
+    private ArrayList<Integer> pmaxmarks = new ArrayList<>();
+    private ArrayList<Integer> qmarks = new ArrayList<>();
+    private ArrayList<String> pgradedby = new ArrayList<>();
+    private ArrayList<String> qgradedby = new ArrayList<>();
+
+    //Getter
+    public ArrayList<String> qstat(){
+        return qstat;
+    }
+    public ArrayList<String> pstat(){
+        return pstat;
+    }
+    public ArrayList<String> qsubmission(){
+        return qsubmission;
+    }
+    public ArrayList<String> psubmission(){
+        return psubmission;
+    }
+    public ArrayList<String> psubmissionstatus(){
+        return psubmissionstatus;
+    }
+    public ArrayList<String> qsubmissionstatus(){
+        return qsubmissionstatus;
+    }
+    public ArrayList<Integer> pmarks(){
+        return pmarks;
+    }
+    public ArrayList<Integer> qmarks(){
+        return qmarks;
+    }
+    public ArrayList<Integer> pmaxmarks(){
+        return pmaxmarks;
+    }
+    public ArrayList<String> pgradedby(){
+        return pgradedby;
+    }
+    public ArrayList<String> qgradedby(){
+        return qgradedby;
+    }
 
     public void view_lec_mat(classmaterial material1) {
         material1.viewlmat();
@@ -563,9 +597,9 @@ class Main {
                                         // System.out.println(helper);
                                         System.out.println("Choose ID from these ungraded submissions:");
                                         for (int i = 0; i < list_of_stud.size(); i++) {
-                                            if (list_of_stud.get(i).pstat.contains(helper)
-                                                    && list_of_stud.get(i).psubmissionstatus
-                                                            .get(list_of_stud.get(i).pstat.indexOf(helper))
+                                            if (list_of_stud.get(i).pstat().contains(helper)
+                                                    && list_of_stud.get(i).psubmissionstatus()
+                                                            .get(list_of_stud.get(i).pstat().indexOf(helper))
                                                             .equals("Submitted")) {
                                                 System.out.println(ind + ". " + list_of_name.get(i));
                                                 temp.add(list_of_stud.get(i));
@@ -574,17 +608,17 @@ class Main {
                                         }
                                         int input = sc.nextInt();
                                         System.out.println("Submission:");
-                                        System.out.println("Submission: " + temp.get(input).psubmission
-                                                .get(temp.get(input).pstat.indexOf(helper)));
+                                        System.out.println("Submission: " + temp.get(input).psubmission()
+                                                .get(temp.get(input).pstat().indexOf(helper)));
                                         System.out.println("-------------------------------");
                                         System.out.println("Max Marks: "
-                                                + temp.get(input).pmaxmarks.get(temp.get(input).pstat.indexOf(helper)));
+                                                + temp.get(input).pmaxmarks().get(temp.get(input).pstat().indexOf(helper)));
                                         System.out.print("Marks Scored: ");
                                         int marks_given = sc.nextInt();
-                                        temp.get(input).pmarks.set(temp.get(input).pstat.indexOf(helper), marks_given);
-                                        temp.get(input).psubmissionstatus.set(temp.get(input).pstat.indexOf(helper),
+                                        temp.get(input).pmarks().set(temp.get(input).pstat().indexOf(helper), marks_given);
+                                        temp.get(input).psubmissionstatus().set(temp.get(input).pstat().indexOf(helper),
                                                 "Graded");
-                                        temp.get(input).pgradedby.set(temp.get(input).pstat.indexOf(helper), "I0");
+                                        temp.get(input).pgradedby().set(temp.get(input).pstat().indexOf(helper), "I0");
 
                                     }
 
@@ -592,9 +626,9 @@ class Main {
                                         helper = assessment0.quizstat().get(key - asize);
                                         System.out.println("Choose ID from these ungraded submissions");
                                         for (int i = 0; i < list_of_stud.size(); i++) {
-                                            if (list_of_stud.get(i).qstat.contains(helper)
-                                                    && list_of_stud.get(i).qsubmissionstatus
-                                                            .get(list_of_stud.get(i).qstat.indexOf(helper))
+                                            if (list_of_stud.get(i).qstat().contains(helper)
+                                                    && list_of_stud.get(i).qsubmissionstatus()
+                                                            .get(list_of_stud.get(i).qstat().indexOf(helper))
                                                             .equals("Submitted")) {
                                                 System.out.println(ind + ". " + list_of_name.get(i));
                                                 temp.add(list_of_stud.get(i));
@@ -603,16 +637,16 @@ class Main {
                                         }
                                         int input = sc.nextInt();
                                         System.out.println("Submission:");
-                                        System.out.println("Submission: " + temp.get(input).qsubmission
-                                                .get(temp.get(input).qstat.indexOf(helper)));
+                                        System.out.println("Submission: " + temp.get(input).qsubmission()
+                                                .get(temp.get(input).qstat().indexOf(helper)));
                                         System.out.println("-------------------------------");
                                         System.out.println("Max Marks: 1");
                                         System.out.print("Marks Scored: ");
                                         int marks_given = sc.nextInt();
-                                        temp.get(input).qmarks.set(temp.get(input).qstat.indexOf(helper), marks_given);
-                                        temp.get(input).qsubmissionstatus.set(temp.get(input).qstat.indexOf(helper),
+                                        temp.get(input).qmarks().set(temp.get(input).qstat().indexOf(helper), marks_given);
+                                        temp.get(input).qsubmissionstatus().set(temp.get(input).qstat().indexOf(helper),
                                                 "Graded");
-                                        temp.get(input).qgradedby.set(temp.get(input).pstat.indexOf(helper), "I0");
+                                        temp.get(input).qgradedby().set(temp.get(input).pstat().indexOf(helper), "I0");
                                     } else {
                                         System.out.println("Wrong input");
                                     }
@@ -695,9 +729,9 @@ class Main {
                                         // System.out.println(helper);
                                         System.out.println("Choose ID from these ungraded submissions:");
                                         for (int i = 0; i < list_of_stud.size(); i++) {
-                                            if (list_of_stud.get(i).pstat.contains(helper)
-                                                    && list_of_stud.get(i).psubmissionstatus
-                                                            .get(list_of_stud.get(i).pstat.indexOf(helper))
+                                            if (list_of_stud.get(i).pstat().contains(helper)
+                                                    && list_of_stud.get(i).psubmissionstatus()
+                                                            .get(list_of_stud.get(i).pstat().indexOf(helper))
                                                             .equals("Submitted")) {
                                                 System.out.println(ind + ". " + list_of_name.get(i));
                                                 temp.add(list_of_stud.get(i));
@@ -706,17 +740,17 @@ class Main {
                                         }
                                         int input = sc.nextInt();
                                         System.out.println("Submission:");
-                                        System.out.println("Submission: " + temp.get(input).psubmission
-                                                .get(temp.get(input).pstat.indexOf(helper)));
+                                        System.out.println("Submission: " + temp.get(input).psubmission()
+                                                .get(temp.get(input).pstat().indexOf(helper)));
                                         System.out.println("-------------------------------");
                                         System.out.println("Max Marks: "
-                                                + temp.get(input).pmaxmarks.get(temp.get(input).pstat.indexOf(helper)));
+                                                + temp.get(input).pmaxmarks().get(temp.get(input).pstat().indexOf(helper)));
                                         System.out.print("Marks Scored: ");
                                         int marks_given = sc.nextInt();
-                                        temp.get(input).pmarks.set(temp.get(input).pstat.indexOf(helper), marks_given);
-                                        temp.get(input).psubmissionstatus.set(temp.get(input).pstat.indexOf(helper),
+                                        temp.get(input).pmarks().set(temp.get(input).pstat().indexOf(helper), marks_given);
+                                        temp.get(input).psubmissionstatus().set(temp.get(input).pstat().indexOf(helper),
                                                 "Graded");
-                                        temp.get(input).pgradedby.set(temp.get(input).pstat.indexOf(helper), "I1");
+                                        temp.get(input).pgradedby().set(temp.get(input).pstat().indexOf(helper), "I1");
 
                                     }
 
@@ -724,9 +758,9 @@ class Main {
                                         helper = assessment0.quizstat().get(key - asize);
                                         System.out.println("Choose ID from these ungraded submissions");
                                         for (int i = 0; i < list_of_stud.size(); i++) {
-                                            if (list_of_stud.get(i).qstat.contains(helper)
-                                                    && list_of_stud.get(i).qsubmissionstatus
-                                                            .get(list_of_stud.get(i).qstat.indexOf(helper))
+                                            if (list_of_stud.get(i).qstat().contains(helper)
+                                                    && list_of_stud.get(i).qsubmissionstatus()
+                                                            .get(list_of_stud.get(i).qstat().indexOf(helper))
                                                             .equals("Submitted")) {
                                                 System.out.println(ind + ". " + list_of_name.get(i));
                                                 temp.add(list_of_stud.get(i));
@@ -735,16 +769,16 @@ class Main {
                                         }
                                         int input = sc.nextInt();
                                         System.out.println("Submission:");
-                                        System.out.println("Submission: " + temp.get(input).qsubmission
-                                                .get(temp.get(input).qstat.indexOf(helper)));
+                                        System.out.println("Submission: " + temp.get(input).qsubmission()
+                                                .get(temp.get(input).qstat().indexOf(helper)));
                                         System.out.println("-------------------------------");
                                         System.out.println("Max Marks: 1");
                                         System.out.print("Marks Scored: ");
                                         int marks_given = sc.nextInt();
-                                        temp.get(input).qmarks.set(temp.get(input).qstat.indexOf(helper), marks_given);
-                                        temp.get(input).qsubmissionstatus.set(temp.get(input).qstat.indexOf(helper),
+                                        temp.get(input).qmarks().set(temp.get(input).qstat().indexOf(helper), marks_given);
+                                        temp.get(input).qsubmissionstatus().set(temp.get(input).qstat().indexOf(helper),
                                                 "Graded");
-                                        temp.get(input).qgradedby.set(temp.get(input).pstat.indexOf(helper), "I1");
+                                        temp.get(input).qgradedby().set(temp.get(input).pstat().indexOf(helper), "I1");
                                     } else {
                                         System.out.println("Wrong input");
                                     }
