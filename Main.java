@@ -1,456 +1,880 @@
 import java.util.*;
-import java.io.*;
-import java.lang.*;
-import java.util.Scanner;
 
-class Vaccine{
-    Vector<String> name = new Vector<>();
-    Vector<Integer> no = new Vector<>();
-    Vector<Integer> gap = new Vector<>();
-    void add_vac(String n, int nu, int g){
-        name.add(n);
-        no.add(nu);
-        gap.add(g);
-        System.out.println("Vaccine Name: " +n+ ", Number of Doses: "+nu+", Gap Between Doses: "+g);
-    }
+//Kartik Jain  2020440  AP Assignment2
+
+interface viewlecfunc {
+    public void viewlecmaterial(classmaterial material1);
 }
-class Hospital{
-    Vector<String> name = new Vector<>();
-    Vector<Integer> pincode = new Vector<>();
-    Vector<Integer> id = new Vector<>();
-    int ran = 100000;
-    void reg_hosp(String n, int p){
-        name.add(n);
-        pincode.add(p);
-        ran++;
-        id.add(ran);
-        System.out.println("Hospital Name: "+ n+ ", PinCode: "+p+", Unique ID: "+ran);
-    }
+
+interface viewassessfunc {
+    public void viewassessment(Assessment ass);
 }
-class Citizen{
-    Vector<String> name = new Vector<>();
-    Vector<Integer> age = new Vector<>();
-    Vector<Long> id = new Vector<>();
-    Vector<String> status = new Vector<>();
-    Vector<Long> id_for_vacname = new Vector<>();
-    Vector<String> vacname = new Vector<>();
-    //HashMap<Long, String> vacname = new HashMap<Long, String>();
-    Vector<Integer> noofdoses = new Vector<>();
-    Vector<Integer> duedate = new Vector<>();
-    void reg_cit(String n, int a, long i){
-        if(a>= 18){
-            name.add(n);
-            age.add(a);
-            id.add(i);
-            status.add("REGISTERED");
-            noofdoses.add(0) ;
-            duedate.add(0) ; 
-            System.out.println("Citizen Name: " + n + ", Age: " +a +", Unique ID: "+i);
-        }
-        else{
-            System.out.println("Only above 18 are allowed");
-        }
-    }
-    void check_vacstatus(long unqid){
-        int cid = 0 ; 
-        
-        for(int i=0; i<id.size(); i++){
-            if(id.get(i)== unqid){
-                cid = i ; 
-                break ; 
-            }
-        }
-        if(status.get(cid) == "REGISTERED"){
-                System.out.println("Citizen REGISTERED");
-            }
-        for(int i=0; i<id_for_vacname.size(); i++){
-            if(id_for_vacname.get(i) == unqid){
-                if(status.get(cid) == "PARTIALLY VACCINATED"){
-                    System.out.println("PARTIALLY VACCINATED");
-                    System.out.println("Vaccine Given: "+ vacname.get(i));
-                    System.out.println("Number of Doses given: "+ noofdoses.get(cid));
-                    System.out.println("Next Dose due date: "+ duedate.get(cid));
-                }
-                if(status.get(cid) == "FULLY VACCINATED"){
-                    System.out.println("FULLY VACCINATED");
-                    System.out.println("Vaccine Given: "+ vacname.get(i));
-                    System.out.println("Number of Doses given: "+ noofdoses.get(cid));
-                }
-                break ; 
-            }
-        }
-    }
+
+interface commoncommentfunc {
+    public void addcommentfunc(Comments com, String abc);
+
+    public void viewcommentfunc(Comments comm);
 }
-class Slots{
-    Vector<String> name = new Vector<>();
-    Vector<Integer> id = new Vector<>();
-    Vector<Integer> day = new Vector<>();
-    Vector<Integer> qty = new Vector<>();
-    Hospital h = new Hospital() ;
-    Citizen c = new Citizen() ;
-    Vaccine v = new Vaccine() ;
+
+class Comments {
     Scanner nsc = new Scanner(System.in);
-    void add_slot(int i, int d, int q, String na){
-        id.add(i);
-        day.add(d);
-        qty.add(q);
-        name.add(na);
-        System.out.println("Slot added by Hospital "+i+" for Day: "+d+", Available Quantity: "+q+" of Vaccine "+na);
+    ArrayList<String> name = new ArrayList<>();
+    ArrayList<String> com = new ArrayList<>();
+    ArrayList<String> date = new ArrayList<>();
+
+    void add_comm(String x) {
+        System.out.println("Enter comment:");
+        String abc = nsc.nextLine();
+        java.util.Date d = new java.util.Date();
+        String da = d.toString();
+        name.add(x);
+        com.add(abc);
+        date.add(da);
     }
-    void check_slot(int x ){
-        for (int i = 0; i < id.size(); i++) {
-            if(id.get(i) == x){
-                System.out.println(i+"->Day: "+day.get(i)+" Vaccine: "+name.get(i)+" Available Qty: "+qty.get(i));
-            }
+
+    void view_comm() {
+        for (int i = 0; i < com.size(); i++) {
+            System.out.println(com.get(i));
+            System.out.println(date.get(i));
+            System.out.println(name.get(i));
+            System.out.println("");
         }
-    }
-    void check_slot(int x , String vn){
-        for (int i = 0; i < id.size(); i++) {
-            if(id.get(i) == x && vn.equals(name.get(i)) ){
-                System.out.println(i+"->Day: "+day.get(i)+" Vaccine: "+name.get(i)+" Available Qty: "+qty.get(i));
-            }
-        }
-    }
-    
-    void book_slot_pincode(int pnc ,Citizen all_cit, Vaccine all_vac, Hospital all_hosp, Slots all_slot, long unid){
-        h = all_hosp;
-        v = all_vac;
-        c = all_cit;
-        //s = all_slot ; 
-        for(int i=0; i<h.pincode.size(); i++){
-            if(h.pincode.get(i) == pnc){
-                System.out.println(h.id.get(i)+" "+ h.name.get(i));
-            }
-        }
-        System.out.println("Enter hospital id: ");
-        int nid = nsc.nextInt();
-         String vaccine_used =""; 
-                for( int k = 0 ; k<c.id_for_vacname.size() ; k++){
-                      if(c.id_for_vacname.get(k)==unid){
-                          vaccine_used = c.vacname.get(k) ;
-                          break ; 
-                      }
-                }
-        int vaccine_index =0; 
-                for( int k = 0; k<v.name.size() ; k++){
-                    if(vaccine_used.equals(v.name.get(k))){
-                        vaccine_index = k ; 
-                    }
-                }
-        int citizen_id_index = 0 ;
-        for(int k=0; k<c.id.size(); k++){
-            if(c.id.get(k) == unid){
-                citizen_id_index = k ; 
-            }
-        }
-        int hosp_id_index = -1 ;
-        for( int k = 0 ; k< all_slot.id.size() ; k++){
-            if(all_slot.id.get(k) == nid){
-                if(vaccine_used.equals(all_slot.name.get(k))){
-                    hosp_id_index = k ;
-                    if(all_slot.qty.get(k) == 0){
-                         System.out.println("No Slot Available");
-                         return ; 
-                    }
-                }
-                else if(vaccine_used.equals("") && all_slot.qty.get(k)!=0){
-                    hosp_id_index = 0 ; 
-                }
-            }
-        }
-        if(hosp_id_index == -1){
-            System.out.println("No Slot Available");
-                         return ; 
-        }
-        
-        if(c.status.get(citizen_id_index) == "PARTIALLY VACCINATED" && c.duedate.get(citizen_id_index) > all_slot.day.get(hosp_id_index)){
-           System.out.println("No Slot Available");
-           return ; 
-        }
-        
-        
-        all_slot.check_slot(nid);
-        System.out.println("Choose Slot: ");
-        int st = nsc.nextInt();
-         if(all_slot.qty.get(st)==0){
-            System.out.println("No Slot Available");
-                         return ; 
-        }
-        int i_for_all = st ; 
-               
-            int j = citizen_id_index ;
-            if(c.status.get(j) == "REGISTERED"){
-                c.duedate.set(j , all_slot.day.get(i_for_all) + v.gap.get(vaccine_index) ) ; 
-                c.status.set(j,"PARTIALLY VACCINATED");
-                System.out.println(c.name.get(j) +" vaccinated with "+all_slot.name.get(i_for_all));
-                c.vacname.add(all_slot.name.get(i_for_all));
-                c.id_for_vacname.add(unid);
-                all_slot.qty.set(st , all_slot.qty.get(st) -1) ; 
-                c.noofdoses.set(j , 1) ; 
-                if(c.noofdoses.get(j) == v.no.get(vaccine_index)){
-                    c.status.set(j,"FULLY VACCINATED");
-                }
-            return ; 
-            }
-              
-                
-                if(c.status.get(j) == "PARTIALLY VACCINATED" && vaccine_used.equals(all_slot.name.get(i_for_all)) && (c.noofdoses.get(j) + 1) ==v.no.get(vaccine_index)) {
-                    c.status.set(j,"FULLY VACCINATED");
-                    c.noofdoses.set(j , c.noofdoses.get(j) +1) ;
-                    System.out.println(c.name.get(j) +" vaccinated with "+all_slot.name.get(i_for_all));
-                    all_slot.qty.set(i_for_all ,  all_slot.qty.get(i_for_all) -1) ; 
-                    return ; 
-                }
-                if (c.status.get(j) == "PARTIALLY VACCINATED" && vaccine_used.equals(all_slot.name.get(i_for_all)) && (c.noofdoses.get(j) + 1) < v.no.get(vaccine_index) ){
-                    System.out.println(c.name.get(j) +" vaccinated with "+all_slot.name.get(i_for_all));
-                    all_slot.qty.set(st , all_slot.qty.get(st) -1) ; 
-                    c.noofdoses.set(j , c.noofdoses.get(j) +1) ; 
-                    c.duedate.set(j , c.duedate.get(j) + v.gap.get(vaccine_index) ) ; 
-                     if(c.noofdoses.get(j) == v.no.get(vaccine_index)){
-                        c.status.set(j,"FULLY VACCINATED");
-                    }
-                    return ;
-                }
-                
-                 else if(c.status.get(j) == "PARTIALLY VACCINATED" && !(vaccine_used.equals(all_slot.name.get(i_for_all)))){
-                    System.out.println("Vaccine mixing is not allowed");
-                    return ; 
-                }
-               
-    }
-    
-    void book_slot_vaccine(String vn ,Citizen all_cit, Vaccine all_vac, Hospital all_hosp, Slots all_slot, long unid){
-        h = all_hosp;
-        v = all_vac;
-        c = all_cit;
-         
-        for(int i=0; i<all_slot.name.size(); i++){
-            if(all_slot.name.get(i).equals(vn)){
-                for( int k = 0 ;k < h.name.size() ; k++){ 
-                    int x = h.id.get(k);
-                    int y = all_slot.id.get(i) ; 
-                    if(x == y  ){
-                        System.out.println(all_slot.id.get(i)+" "+ h.name.get(k));
-                    }
-                }
-            }
-        }
-        System.out.println("Enter hospital id: ");
-        int nid = nsc.nextInt();
-         String vaccine_used =vn; 
-        int vaccine_index =0; 
-                for( int k = 0; k<v.name.size() ; k++){
-                    if(vaccine_used.equals(v.name.get(k))){
-                        vaccine_index = k ; 
-                    }
-                }
-        int citizen_id_index = 0 ;
-        for(int k=0; k<c.id.size(); k++){
-            if(c.id.get(k) == unid){
-                citizen_id_index = k ; 
-            }
-        }
-        int hosp_id_index = -1 ;
-        for( int k = 0 ; k< all_slot.id.size() ; k++){
-           if(all_slot.id.get(k) == nid){
-               if(vaccine_used.equals(all_slot.name.get(k) )){
-                   hosp_id_index = k ; 
-                   if(all_slot.qty.get(hosp_id_index)==0){
-                       System.out.println("No Slot Available");
-                         return ; 
-                   }
-               }
-           }
-        }
-        if(hosp_id_index == -1){
-            System.out.println("No Slot Available");
-            return ; 
-        }
-        
-          if(c.status.get(citizen_id_index) == "PARTIALLY VACCINATED" && c.duedate.get(citizen_id_index) > all_slot.day.get(hosp_id_index)){
-                   System.out.println("No Slot Available");
-                   return ; 
-                }
-        
-        
-        all_slot.check_slot(nid , vn);
-        System.out.println("Choose Slot: ");
-        int st = nsc.nextInt();
-        int i_for_all = st ; 
-               
-                int j = citizen_id_index ; 
-                
-                if(c.status.get(j) == "REGISTERED"){
-                    c.duedate.set(j , all_slot.day.get(i_for_all) + v.gap.get(vaccine_index) ) ; 
-                    c.status.set(j,"PARTIALLY VACCINATED");
-                    System.out.println(c.name.get(j) +" vaccinated with "+all_slot.name.get(i_for_all));
-                    c.vacname.add(all_slot.name.get(i_for_all));
-                    c.id_for_vacname.add(unid);
-                    all_slot.qty.set(st , all_slot.qty.get(i_for_all) -1) ; 
-                    c.noofdoses.set(j , 1) ; 
-                    if(c.noofdoses.get(j) == v.no.get(vaccine_index)){
-                        c.status.set(j,"FULLY VACCINATED");
-                    }
-                return ; 
-                }
-              
-                
-                if(c.status.get(j) == "PARTIALLY VACCINATED" && vaccine_used.equals(all_slot.name.get(i_for_all))  && (c.noofdoses.get(j) + 1) ==v.no.get(vaccine_index)) {
-                    c.status.set(j,"FULLY VACCINATED");
-                    c.noofdoses.set(j , c.noofdoses.get(j) +1) ;
-                    System.out.println(c.name.get(j) +" vaccinated with "+all_slot.name.get(i_for_all));
-                    all_slot.qty.set(i_for_all ,  all_slot.qty.get(i_for_all) -1) ; 
-                    return ; 
-                }
-                if (c.status.get(j) == "PARTIALLY VACCINATED" && vaccine_used.equals(all_slot.name.get(i_for_all)) && (c.noofdoses.get(j) + 1) < v.no.get(vaccine_index) ){
-                    System.out.println(c.name.get(j) +" vaccinated with "+all_slot.name.get(i_for_all));
-                    all_slot.qty.set(i_for_all , all_slot.qty.get(i_for_all) -1) ; 
-                    c.noofdoses.set(j , c.noofdoses.get(j) +1) ; 
-                    c.duedate.set(j , c.duedate.get(j) + v.gap.get(vaccine_index) ) ; 
-                     if(c.noofdoses.get(j) == v.no.get(vaccine_index)){
-                        c.status.set(j,"FULLY VACCINATED");
-                    }
-                    return ;
-                }
-                
-                 else if(c.status.get(j) == "PARTIALLY VACCINATED" && !(vaccine_used.equals(all_slot.name.get(i_for_all)))){
-                    
-                    System.out.println("Vaccine mixing is not allowed");
-                    return ; 
-                }
     }
 }
-class Main{
-	public static void main (String[] args) {
-	    Scanner sc = new Scanner(System.in);
-	    int opt = 0;
-        Vaccine vac = new Vaccine();
-        Hospital hos = new Hospital();
-        Citizen cit = new Citizen();
-        Slots sl1 = new Slots();
-        while(opt != 8){
-            System.out.println("___________________________");
-            System.out.println("Welcome to Covin portal");
-            System.out.println("___________________________");
-            System.out.println("1. Add Vaccine");
-            System.out.println("2. Register Hospital");
-            System.out.println("3. Register Citizen");
-            System.out.println("4. Add Slot for Vaccination");
-            System.out.println("5. Book Slot for Vaccination");
-            System.out.println("6. List all slots for a hospital");
-            System.out.println("7. Check Vaccination Status");
-            System.out.println("8. Exit");
-            System.out.println("___________________________\n");
-            System.out.println("Enter the number corresponding to the Query: ");
-            opt = sc.nextInt();
-            switch(opt){
+
+class classmaterial {
+    Scanner s = new Scanner(System.in);
+    ArrayList<Integer> slideinstname = new ArrayList<>();
+    ArrayList<String> topic = new ArrayList<>();
+    ArrayList<Integer> noofslides = new ArrayList<>();
+    ArrayList<ArrayList<String>> content = new ArrayList<>();
+    ArrayList<String> slidedate = new ArrayList<>();
+    ArrayList<Integer> vidinstname = new ArrayList<>();
+    ArrayList<String> vidtopic = new ArrayList<>();
+    ArrayList<String> vidfilename = new ArrayList<>();
+    ArrayList<String> viddate = new ArrayList<>();
+
+    void addslidemat(int inst) {
+        String useless = "";
+        ArrayList<String> contentofslide = new ArrayList<>();
+        System.out.println("Enter topic of slides:");
+        String sl = s.nextLine();
+        System.out.println("Enter number of slides:");
+        int nosl = s.nextInt();
+        useless = s.nextLine();
+        System.out.println("Enter content of slides:");
+        for (int i = 1; i <= nosl; i++) {
+            System.out.println("Content of slide " + i + ":");
+            String sno = s.nextLine();
+            contentofslide.add(sno);
+        }
+        java.util.Date d = new java.util.Date();
+        String da = d.toString();
+        topic.add(sl);
+        noofslides.add(nosl);
+        content.add(contentofslide);
+        slidedate.add(da);
+        slideinstname.add(inst);
+    }
+
+    void addvideomat(int inst) {
+        System.out.println("Enter topic of video:");
+        String sk = s.nextLine();
+        System.out.println("Enter filename of video:");
+        String fn = s.nextLine();
+        String acc = fn.substring(fn.length() - 4);
+        if (acc.equals(".mp4")) {
+            java.util.Date d = new java.util.Date();
+            String da = d.toString();
+            vidinstname.add(inst);
+            vidtopic.add(sk);
+            vidfilename.add(fn);
+            viddate.add(da);
+        } else {
+            System.out.println("Wrong File Extension!!");
+        }
+    }
+
+    void viewlmat() {
+        System.out.println("");
+        for (int i = 0; i < slidedate.size(); i++) {
+            System.out.println("Title: " + topic.get(i));
+            for (int k = 0; k < content.get(i).size(); k++) {
+                System.out.println("Slide " + k + " " + content.get(i).get(k));
+            }
+            System.out.println("Number of slides: " + noofslides.get(i));
+            System.out.println("Date of upload: " + slidedate.get(i));
+            System.out.println("Uploaded by: " + slideinstname.get(i));
+            System.out.println("");
+        }
+        for (int i = 0; i < viddate.size(); i++) {
+            System.out.println("Title of video: " + vidtopic.get(i));
+            System.out.println("Video file: " + vidfilename.get(i));
+            System.out.println("Date of upload: " + viddate.get(i));
+            System.out.println("Uploaded by: " + vidinstname.get(i));
+            System.out.println("");
+        }
+    }
+
+}
+
+class Assessment {
+    Scanner sca = new Scanner(System.in);
+
+    ArrayList<String> probstat = new ArrayList<>();
+    ArrayList<Integer> probmaxmarks = new ArrayList<>();
+    ArrayList<String> probstatus = new ArrayList<>();
+    ArrayList<String> quizstat = new ArrayList<>();
+    ArrayList<Integer> quizmaxmarks = new ArrayList<>();
+    ArrayList<String> quizstatus = new ArrayList<>();
+    ArrayList<String> quizsubmission = new ArrayList<>();
+    ArrayList<String> probsubmission = new ArrayList<>();
+    ArrayList<String> quizsubmissionstatus = new ArrayList<>();
+    ArrayList<String> probsubmissionstatus = new ArrayList<>();
+
+    void addassign(Student sa, Student sb, Student sc) {
+        sca.nextLine();
+        System.out.print("Enter problem statement: ");
+        String ques = sca.nextLine();
+        System.out.print("Enter max marks: ");
+        int marks = sca.nextInt();
+        probstat.add(ques);
+        probmaxmarks.add(marks);
+        probstatus.add("Open");
+        probsubmission.add("");
+        probsubmissionstatus.add("Pending");
+        sa.pstat.add(ques);
+        sa.pmaxmarks.add(marks);
+        sa.psubmission.add("");
+        sa.pmarks.add(0);
+        sa.psubmissionstatus.add("Pending");
+        sa.pgradedby.add("");
+        sb.pstat.add(ques);
+        sb.pmaxmarks.add(marks);
+        sb.psubmission.add("");
+        sa.pmarks.add(0);
+        sb.psubmissionstatus.add("Pending");
+        sb.pgradedby.add("");
+        sc.pstat.add(ques);
+        sc.pmaxmarks.add(marks);
+        sc.psubmission.add("");
+        sa.pmarks.add(0);
+        sc.psubmissionstatus.add("Pending");
+        sb.pgradedby.add("");
+    }
+
+    void addquz(Student sa, Student sb, Student sc) {
+        sca.nextLine();
+        System.out.print("Enter quiz question: ");
+        String q = sca.nextLine();
+        quizstat.add(q);
+        quizmaxmarks.add(1);
+        quizstatus.add("Open");
+        quizsubmission.add("");
+        quizsubmissionstatus.add("Pending");
+        sa.qstat.add(q);
+        sa.qsubmission.add("");
+        sa.qmarks.add(0);
+        sa.qsubmissionstatus.add("Pending");
+        sa.qgradedby.add("");
+        sb.qstat.add(q);
+        sb.qsubmission.add("");
+        sa.qmarks.add(0);
+        sb.qsubmissionstatus.add("Pending");
+        sb.qgradedby.add("");
+        sc.qstat.add(q);
+        sc.qmarks.add(0);
+        sa.qsubmission.add("");
+        sc.qsubmissionstatus.add("Pending");
+        sc.qgradedby.add("");
+    }
+
+    void view_assessment() {
+        int temp = 0;
+        for (int i = 0; i < probstat.size(); i++) {
+            System.out
+                    .println("ID: " + temp + " Assignment: " + probstat.get(i) + " Max Marks: " + probmaxmarks.get(i));
+            System.out.println("--------------");
+            temp++;
+        }
+        if (quizstat.size() >= 1) {
+            for (int j = 0; j < quizstat.size(); j++) {
+                System.out.println("ID: " + temp + " Question: " + quizstat.get(j));
+                System.out.println("--------------");
+                temp++;
+            }
+        }
+    }
+
+    int printopenasses() {
+        int temp = 0;
+        int size = 0;
+        for (int i = 0; i < probstat.size(); i++) {
+            if (probstatus.get(i).equals("Open")) {
+                System.out.println(
+                        "ID: " + temp + " Assignment: " + probstat.get(i) + " Max Marks: " + probmaxmarks.get(i));
+                System.out.println("--------------");
+                temp++;
+                size++;
+            } else {
+                temp++;
+            }
+        }
+        if (quizstat.size() >= 1) {
+            for (int j = 0; j < quizstat.size(); j++) {
+                if (quizstatus.get(j).equals("Open")) {
+                    System.out.println("ID: " + temp + " Question: " + quizstat.get(j));
+                    System.out.println("--------------");
+                    temp++;
+                    size++;
+                } else {
+                    temp++;
+                }
+            }
+        }
+        System.out.println("");
+        return size;
+    }
+
+    void printopenasses_help(Student m) {
+        int temp = 0;
+        for (int i = 0; i < probstat.size(); i++) {
+            if (probstatus.get(i).equals("Open") && m.psubmissionstatus.get(i).equals("Pending")) {
+                System.out.println(
+                        "ID: " + temp + " Assignment: " + probstat.get(i) + " Max Marks: " + probmaxmarks.get(i));
+                temp++;
+            } else {
+                temp++;
+            }
+        }
+        if (quizstat.size() >= 1) {
+            for (int j = 0; j < quizstat.size(); j++) {
+                if (quizstatus.get(j).equals("Open") && m.qsubmissionstatus.get(j).equals("Pending")) {
+                    System.out.println("ID: " + temp + " Question: " + quizstat.get(j));
+                    temp++;
+                } else {
+                    temp++;
+                }
+            }
+        }
+        System.out.println("");
+    }
+
+    int printopenasses_help2(Student m) {
+        int size = 0;
+        for (int i = 0; i < probstat.size(); i++) {
+            if (probstatus.get(i).equals("Open") && m.psubmissionstatus.get(i).equals("Pending")) {
+                size++;
+            }
+        }
+        if (quizstat.size() >= 1) {
+            for (int j = 0; j < quizstat.size(); j++) {
+                if (quizstatus.get(j).equals("Open") && m.qsubmissionstatus.get(j).equals("Pending")) {
+                    size++;
+                }
+            }
+        }
+        return size;
+    }
+}
+
+class Instructor implements viewlecfunc, viewassessfunc, commoncommentfunc {
+
+    void addslidematerial(classmaterial material1, int i) {
+        material1.addslidemat(i);
+    }
+
+    void addvideomaterial(classmaterial material1, int i) {
+        material1.addvideomat(i);
+    }
+
+    void view_lec_mat(classmaterial material1) {
+        material1.viewlmat();
+    }
+
+    @Override
+    public void viewlecmaterial(classmaterial material1) {
+        this.view_lec_mat(material1);
+    }
+
+    @Override
+    public void viewassessment(Assessment assessment1) {
+        assessment1.view_assessment();
+    }
+
+    @Override
+    public void addcommentfunc(Comments comm, String abc) {
+        comm.add_comm(abc);
+    }
+
+    @Override
+    public void viewcommentfunc(Comments com) {
+        com.view_comm();
+    }
+
+    void addassignment(Assessment assessment1, Student sp, Student so, Student si) {
+        assessment1.addassign(sp, so, si);
+    }
+
+    void addquiz(Assessment assessment1, Student sp, Student so, Student si) {
+        assessment1.addquz(sp, so, si);
+    }
+
+    int print_open_asses(Assessment assessment1) {
+        int a = assessment1.printopenasses();
+        return a;
+    }
+
+    int close_assessment(Assessment assessment1, int a, int ind) {
+        if (a + 1 <= assessment1.probstat.size()) {
+            assessment1.probstatus.set(a - ind - 1, "Close");
+        } else if (a + 1 <= assessment1.probstat.size() + assessment1.quizstat.size()) {
+            assessment1.quizstatus.set(a - assessment1.probstat.size(), "Close");
+        }
+        return ind;
+    }
+}
+
+class Student implements viewlecfunc, viewassessfunc, commoncommentfunc {
+    Scanner s = new Scanner(System.in);
+    ArrayList<String> qstat = new ArrayList<>();
+    ArrayList<String> pstat = new ArrayList<>();
+    ArrayList<String> qsubmission = new ArrayList<>();
+    ArrayList<String> psubmission = new ArrayList<>();
+    ArrayList<String> qsubmissionstatus = new ArrayList<>();
+    ArrayList<String> psubmissionstatus = new ArrayList<>();
+    ArrayList<Integer> pmarks = new ArrayList<>();
+    ArrayList<Integer> pmaxmarks = new ArrayList<>();
+    ArrayList<Integer> qmarks = new ArrayList<>();
+    ArrayList<String> pgradedby = new ArrayList<>();
+    ArrayList<String> qgradedby = new ArrayList<>();
+
+    void view_lec_mat(classmaterial material1) {
+        material1.viewlmat();
+    }
+
+    @Override
+    public void viewlecmaterial(classmaterial material1) {
+        this.view_lec_mat(material1);
+    }
+
+    @Override
+    public void viewassessment(Assessment assessment1) {
+        assessment1.view_assessment();
+    }
+
+    @Override
+    public void addcommentfunc(Comments comm, String abc) {
+        comm.add_comm(abc);
+    }
+
+    @Override
+    public void viewcommentfunc(Comments com) {
+        com.view_comm();
+    }
+
+    void printasses(Assessment assessment1, Student su) {
+
+        assessment1.printopenasses_help(su);
+    }
+
+    void submit_ass(Student sin, int asid) {
+        if (asid + 1 <= sin.psubmissionstatus.size()) {
+            System.out.println("Enter filename of assignment: ");
+            s.nextLine();
+            String aname = s.nextLine();
+            if (aname.substring(aname.length() - 4).equals(".zip")) {
+                sin.psubmissionstatus.set(asid, "Submitted");
+                sin.psubmission.set(asid, aname);
+                // System.out.println(sin.psubmissionstatus);
+            } else {
+                System.out.println("Incorrect File Extension");
+            }
+        } else if (asid + 1 <= sin.psubmissionstatus.size() + sin.qsubmissionstatus.size()) {
+            System.out.println(sin.qstat.get(asid - sin.psubmissionstatus.size()) + " ");
+            System.out.println("Enter Your Answer: ");
+            String ans = s.nextLine();
+            sin.qsubmissionstatus.set(asid - sin.psubmissionstatus.size(), "Submitted");
+            sin.qsubmission.set(asid - sin.psubmissionstatus.size(), ans);
+            // System.out.println(sin.qsubmissionstatus);
+        } else {
+            System.out.println("Wrong Input");
+        }
+    }
+
+    void view_grades(Student sis) {
+        System.out.println("Graded Submissions:");
+        for (int i = 0; i < sis.psubmission.size(); i++) {
+            if (!sis.psubmission.get(i).equals("")) {
+                if (sis.psubmissionstatus.get(i).equals("Graded")) {
+                    System.out.println("Submission: " + sis.psubmission.get(i));
+                    System.out.println("Marks scored: " + sis.pmarks.get(i));
+                    System.out.println("Graded by: " + sis.pgradedby.get(i));
+                }
+            }
+        }
+        for (int i = 0; i < sis.qsubmission.size(); i++) {
+            if (!sis.qsubmission.get(i).equals("")) {
+                if (sis.qsubmissionstatus.get(i).equals("Graded")) {
+                    System.out.println("Submission: " + sis.qsubmission.get(i));
+                    System.out.println("Marks scored: " + sis.qmarks.get(i));
+                    System.out.println("Graded by: " + sis.qgradedby.get(i));
+                }
+            }
+        }
+        System.out.println("------------------------------");
+        System.out.println("Ungraded Submissions:");
+        for (int i = 0; i < sis.psubmission.size(); i++) {
+            if (!sis.psubmission.get(i).equals("")) {
+                if (sis.psubmissionstatus.get(i).equals("Submitted")) {
+                    System.out.println("Submission: " + sis.psubmission.get(i));
+                }
+            }
+        }
+        for (int i = 0; i < sis.qsubmission.size(); i++) {
+            if (!sis.qsubmission.get(i).equals("")) {
+                if (sis.qsubmissionstatus.get(i).equals("Submitted")) {
+                    System.out.println("Submission: " + sis.qsubmission.get(i));
+                }
+            }
+        }
+        System.out.println("------------------------------");
+    }
+}
+
+class Main {
+    public static void add_comment_func(commoncommentfunc item, Comments com, String abc) {
+        item.addcommentfunc(com, abc);
+    }
+
+    public static void view_comment_func(commoncommentfunc item, Comments com) {
+        item.viewcommentfunc(com);
+
+    }
+
+    public static void view_lec_func(viewlecfunc item, classmaterial mate) {
+        item.viewlecmaterial(mate);
+    }
+
+    public static void view_ass_func(viewassessfunc item, Assessment assessment1) {
+        item.viewassessment(assessment1);
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        Instructor I0 = new Instructor();
+        Instructor I1 = new Instructor();
+        Student S0 = new Student();
+        Student S1 = new Student();
+        Student S2 = new Student();
+        classmaterial material0 = new classmaterial();
+        Assessment assessment0 = new Assessment();
+        Comments comment0 = new Comments();
+        int inp1 = 0;
+        while (inp1 != 3) {
+            System.out.println("Welcome to Backpack\n1. Enter as instructor\n2. Enter as student\n3. Exit");
+            inp1 = sc.nextInt();
+            int inp2 = -1;
+            int inp3 = 0;
+            switch (inp1) {
                 case 1:
-                    System.out.println("Vaccine Name: ");
-                    String name1 = sc.next();
-                    System.out.println("Number of doses: ");
-                    int doses = sc.nextInt();
-                    if(doses>1){
-                        System.out.println("Gap between doses: ");
-                        int gap = sc.nextInt();
-                        vac.add_vac(name1, doses, gap);
+                    System.out.println("Instructors:\n0 - I0\n1 - I1\nChoose id: ");
+                    inp2 = sc.nextInt();
+                    if (inp2 == 0) {
+                        while (inp3 != 9) {
+                            System.out.println("Welcome I0");
+                            System.out.println(
+                                    "INSTRUCTOR MENU\n1. Add class material\n2. Add assessments\n3. View lecture materials\n4. View assessments\n5. Grade assessments\n6. Close assessment\n7. View comments\n8. Add comments\n9. Logout");
+                            inp3 = sc.nextInt();
+                            switch (inp3) {
+                                case 1:
+                                    System.out.println("1. Add Lecture Slide\n2. Add Lecture Video\nChoose Option:");
+                                    int acm = sc.nextInt();
+                                    if (acm == 1) {
+                                        I0.addslidematerial(material0, 0);
+                                    }
+                                    if (acm == 2) {
+                                        I0.addvideomaterial(material0, 0);
+                                    }
+                                    break;
+                                case 2:
+                                    System.out.println("1. Add Assignment\n2. Add Quiz");
+                                    System.out.print("Choose Option: ");
+                                    int aas = sc.nextInt();
+                                    if (aas == 1) {
+                                        I0.addassignment(assessment0, S0, S1, S2);
+                                    }
+                                    if (aas == 2) {
+                                        I0.addquiz(assessment0, S0, S1, S2);
+                                    }
+                                    break;
+                                case 3:
+                                    view_lec_func(I0, material0);
+                                    break;
+                                case 4:
+                                    view_ass_func(I0, assessment0);
+                                    break;
+                                case 5:
+                                    ArrayList<Student> list_of_stud = new ArrayList<>();
+                                    list_of_stud.add(S0);
+                                    list_of_stud.add(S1);
+                                    list_of_stud.add(S2);
+                                    ArrayList<String> list_of_name = new ArrayList<>();
+                                    list_of_name.add("S0");
+                                    list_of_name.add("S1");
+                                    list_of_name.add("S2");
+                                    System.out.println("List of assessments");
+                                    view_ass_func(I0, assessment0);
+                                    System.out.println("Enter ID of assessment to view submissions:");
+                                    int key = sc.nextInt();
+                                    int asize = assessment0.probstat.size();
+                                    int qsize = assessment0.quizstat.size();
+                                    String helper;
+                                    int ind = 0;
+                                    ArrayList<Student> temp = new ArrayList<>();
+
+                                    if (key + 1 <= asize) {
+                                        helper = assessment0.probstat.get(key);
+                                        // System.out.println(helper);
+                                        System.out.println("Choose ID from these ungraded submissions:");
+                                        for (int i = 0; i < list_of_stud.size(); i++) {
+                                            if (list_of_stud.get(i).pstat.contains(helper)
+                                                    && list_of_stud.get(i).psubmissionstatus
+                                                            .get(list_of_stud.get(i).pstat.indexOf(helper))
+                                                            .equals("Submitted")) {
+                                                System.out.println(ind + ". " + list_of_name.get(i));
+                                                temp.add(list_of_stud.get(i));
+                                                ind++;
+                                            }
+                                        }
+                                        int input = sc.nextInt();
+                                        System.out.println("Submission:");
+                                        System.out.println("Submission: " + temp.get(input).psubmission
+                                                .get(temp.get(input).pstat.indexOf(helper)));
+                                        System.out.println("-------------------------------");
+                                        System.out.println("Max Marks: "
+                                                + temp.get(input).pmaxmarks.get(temp.get(input).pstat.indexOf(helper)));
+                                        System.out.print("Marks Scored: ");
+                                        int marks_given = sc.nextInt();
+                                        temp.get(input).pmarks.set(temp.get(input).pstat.indexOf(helper), marks_given);
+                                        temp.get(input).psubmissionstatus.set(temp.get(input).pstat.indexOf(helper),
+                                                "Graded");
+                                        temp.get(input).pgradedby.set(temp.get(input).pstat.indexOf(helper), "I0");
+
+                                    }
+
+                                    else if (key + 1 <= (asize + qsize)) {
+                                        helper = assessment0.quizstat.get(key - asize);
+                                        System.out.println("Choose ID from these ungraded submissions");
+                                        for (int i = 0; i < list_of_stud.size(); i++) {
+                                            if (list_of_stud.get(i).qstat.contains(helper)
+                                                    && list_of_stud.get(i).qsubmissionstatus
+                                                            .get(list_of_stud.get(i).qstat.indexOf(helper))
+                                                            .equals("Submitted")) {
+                                                System.out.println(ind + ". " + list_of_name.get(i));
+                                                temp.add(list_of_stud.get(i));
+                                                ind++;
+                                            }
+                                        }
+                                        int input = sc.nextInt();
+                                        System.out.println("Submission:");
+                                        System.out.println("Submission: " + temp.get(input).qsubmission
+                                                .get(temp.get(input).qstat.indexOf(helper)));
+                                        System.out.println("-------------------------------");
+                                        System.out.println("Max Marks: 1");
+                                        System.out.print("Marks Scored: ");
+                                        int marks_given = sc.nextInt();
+                                        temp.get(input).qmarks.set(temp.get(input).qstat.indexOf(helper), marks_given);
+                                        temp.get(input).qsubmissionstatus.set(temp.get(input).qstat.indexOf(helper),
+                                                "Graded");
+                                        temp.get(input).qgradedby.set(temp.get(input).pstat.indexOf(helper), "I0");
+                                    } else {
+                                        System.out.println("Wrong input");
+                                    }
+                                    break;
+
+                                case 6:
+                                    System.out.println("List of Open Assignments:");
+                                    I0.print_open_asses(assessment0);
+                                    System.out.println("Enter id of assignment to close: ");
+                                    int abc = sc.nextInt();
+                                    I0.close_assessment(assessment0, abc, 0);
+                                    break;
+                                case 7:
+                                    view_comment_func(I0, comment0);
+                                    break;
+                                case 8:
+                                    add_comment_func(I0, comment0, "I0");
+                                    break;
+                                case 9:
+                                    break;
+
+                            }
+                        }
                     }
-                    else{
-                        vac.add_vac(name1,doses,0);
+                    if (inp2 == 1) {
+                        while (inp3 != 9) {
+                            System.out.println("Welcome I1");
+                            System.out.println(
+                                    "INSTRUCTOR MENU\n1. Add class material\n2. Add assessments\n3. View lecture materials\n4. View assessments\n5. Grade assessments\n6. Close assessment\n7. View comments\n8. Add comments\n9. Logout");
+                            inp3 = sc.nextInt();
+                            switch (inp3) {
+                                case 1:
+                                    System.out.println("1. Add Lecture Slide\n2. Add Lecture Video\nChoose Option:");
+                                    int acm = sc.nextInt();
+                                    if (acm == 1) {
+                                        I1.addslidematerial(material0, 0);
+                                    }
+                                    if (acm == 2) {
+                                        I1.addvideomaterial(material0, 0);
+                                    }
+                                    break;
+                                case 2:
+                                    System.out.println("1. Add Assignment\n2. Add Quiz");
+                                    System.out.print("Choose Option: ");
+                                    int aas = sc.nextInt();
+                                    if (aas == 1) {
+                                        I1.addassignment(assessment0, S0, S1, S2);
+                                    }
+                                    if (aas == 2) {
+                                        I1.addquiz(assessment0, S0, S1, S2);
+                                    }
+                                    break;
+                                case 3:
+                                    view_lec_func(I1, material0);
+                                    break;
+                                case 4:
+                                    view_ass_func(I1, assessment0);
+                                    break;
+                                case 5:
+                                    ArrayList<Student> list_of_stud = new ArrayList<>();
+                                    list_of_stud.add(S0);
+                                    list_of_stud.add(S1);
+                                    list_of_stud.add(S2);
+                                    ArrayList<String> list_of_name = new ArrayList<>();
+                                    list_of_name.add("S0");
+                                    list_of_name.add("S1");
+                                    list_of_name.add("S2");
+                                    System.out.println("List of assessments");
+                                    view_ass_func(I0, assessment0);
+                                    System.out.println("Enter ID of assessment to view submissions:");
+                                    int key = sc.nextInt();
+                                    int asize = assessment0.probstat.size();
+                                    int qsize = assessment0.quizstat.size();
+                                    String helper;
+                                    int ind = 0;
+                                    ArrayList<Student> temp = new ArrayList<>();
+
+                                    if (key + 1 <= asize) {
+                                        helper = assessment0.probstat.get(key);
+                                        // System.out.println(helper);
+                                        System.out.println("Choose ID from these ungraded submissions:");
+                                        for (int i = 0; i < list_of_stud.size(); i++) {
+                                            if (list_of_stud.get(i).pstat.contains(helper)
+                                                    && list_of_stud.get(i).psubmissionstatus
+                                                            .get(list_of_stud.get(i).pstat.indexOf(helper))
+                                                            .equals("Submitted")) {
+                                                System.out.println(ind + ". " + list_of_name.get(i));
+                                                temp.add(list_of_stud.get(i));
+                                                ind++;
+                                            }
+                                        }
+                                        int input = sc.nextInt();
+                                        System.out.println("Submission:");
+                                        System.out.println("Submission: " + temp.get(input).psubmission
+                                                .get(temp.get(input).pstat.indexOf(helper)));
+                                        System.out.println("-------------------------------");
+                                        System.out.println("Max Marks: "
+                                                + temp.get(input).pmaxmarks.get(temp.get(input).pstat.indexOf(helper)));
+                                        System.out.print("Marks Scored: ");
+                                        int marks_given = sc.nextInt();
+                                        temp.get(input).pmarks.set(temp.get(input).pstat.indexOf(helper), marks_given);
+                                        temp.get(input).psubmissionstatus.set(temp.get(input).pstat.indexOf(helper),
+                                                "Graded");
+                                        temp.get(input).pgradedby.set(temp.get(input).pstat.indexOf(helper), "I1");
+
+                                    }
+
+                                    else if (key + 1 <= (asize + qsize)) {
+                                        helper = assessment0.quizstat.get(key - asize);
+                                        System.out.println("Choose ID from these ungraded submissions");
+                                        for (int i = 0; i < list_of_stud.size(); i++) {
+                                            if (list_of_stud.get(i).qstat.contains(helper)
+                                                    && list_of_stud.get(i).qsubmissionstatus
+                                                            .get(list_of_stud.get(i).qstat.indexOf(helper))
+                                                            .equals("Submitted")) {
+                                                System.out.println(ind + ". " + list_of_name.get(i));
+                                                temp.add(list_of_stud.get(i));
+                                                ind++;
+                                            }
+                                        }
+                                        int input = sc.nextInt();
+                                        System.out.println("Submission:");
+                                        System.out.println("Submission: " + temp.get(input).qsubmission
+                                                .get(temp.get(input).qstat.indexOf(helper)));
+                                        System.out.println("-------------------------------");
+                                        System.out.println("Max Marks: 1");
+                                        System.out.print("Marks Scored: ");
+                                        int marks_given = sc.nextInt();
+                                        temp.get(input).qmarks.set(temp.get(input).qstat.indexOf(helper), marks_given);
+                                        temp.get(input).qsubmissionstatus.set(temp.get(input).qstat.indexOf(helper),
+                                                "Graded");
+                                        temp.get(input).qgradedby.set(temp.get(input).pstat.indexOf(helper), "I1");
+                                    } else {
+                                        System.out.println("Wrong input");
+                                    }
+                                    break;
+                                case 6:
+                                    System.out.println("List of Open Assignments:");
+                                    I1.print_open_asses(assessment0);
+                                    System.out.println("Enter id of assignment to close: ");
+                                    int abc = sc.nextInt();
+                                    I1.close_assessment(assessment0, abc, 0);
+                                    break;
+                                case 7:
+                                    view_comment_func(I1, comment0);
+                                    break;
+                                case 8:
+                                    add_comment_func(I1, comment0, "I1");
+                                    break;
+                                case 9:
+                                    break;
+
+                            }
+                        }
+                    }
+                    if (inp2 != 0 && inp2 != 1) {
+                        System.out.println("Wrong Input!!");
                     }
                     break;
+
                 case 2:
-                    System.out.println("Hospital Name: ");
-                    String name2 = sc.next();
-                    System.out.println("Pincode: ");
-                    int pin = sc.nextInt();
-                    hos.reg_hosp(name2, pin);
-                    break;
-                case 3:
-                    System.out.println("Citizen Name: ");
-                    String name3 = sc.next();
-                    System.out.println("Age: ");
-                    int age = sc.nextInt();
-                    System.out.println("12 Digit Unique ID: ");
-                    long id = sc.nextLong();
-                    cit.reg_cit(name3, age, id);
-                    break;
-                case 4:
-                    System.out.println("Enter Registered Hospital ID: ");
-                    int i = sc.nextInt();
-                    int x = -1 ; 
-                    for(int p=0; p<hos.id.size(); p++){
-                        if(hos.id.get(p) == i){
-                            x = 0 ; 
-                            System.out.println("Enter number of Slots to be added: ");
-                        int no_slot = sc.nextInt();
-                        while(no_slot>0){
-                            System.out.println("Enter Day Number: ");
-                            int d = sc.nextInt();
-                            System.out.println("Enter Quantity: ");
-                            int q = sc.nextInt();
-                            System.out.println("Select Vaccine-");
-                            for(int j=0; j<vac.name.size();j++){
-                                System.out.println(j+ ". "+vac.name.get(j));
+                    System.out.println("Students:\n0 - S0\n1 - S1\n2 - S2\nChoose id: ");
+                    inp2 = sc.nextInt();
+                    if (inp2 == 0) {
+                        while (inp3 != 7) {
+                            System.out.println("Welcome S0");
+                            System.out.println(
+                                    "STUDENT MENU\n1. View lecture materials\n2. View assessments\n3. Submit assessment\n4. View grades\n5. View comments\n6. Add comments\n7. Logout");
+                            inp3 = sc.nextInt();
+                            switch (inp3) {
+                                case 1:
+                                    view_lec_func(S0, material0);
+                                    break;
+                                case 2:
+                                    view_ass_func(S0, assessment0);
+                                    break;
+                                case 3:
+                                    if (assessment0.printopenasses_help2(S0) > 0) {
+                                        System.out.println("Pending assessments:");
+                                        S0.printasses(assessment0, S0);
+                                        System.out.println("Enter ID of assessment: ");
+                                        int asid = sc.nextInt();
+                                        S0.submit_ass(S0, asid);
+                                    } else {
+                                        System.out.println("No pending assessment");
+                                    }
+                                    break;
+                                case 4:
+                                    S0.view_grades(S0);
+                                    break;
+                                case 5:
+                                    view_comment_func(S0, comment0);
+                                    break;
+                                case 6:
+                                    add_comment_func(S0, comment0, "S0");
+                                    break;
+                                case 7:
+                                    break;
                             }
-                            int in = sc.nextInt();
-                            if(in < vac.name.size()){
-                                sl1.add_slot(i, d, q,vac.name.get(in));
-                            }
-                            else{
-                                System.out.println("Wrong Vaccine Name");
-                            }
-                            no_slot--;
-                            }
+
                         }
                     }
-                    if(x==-1){
-                        System.out.println("No Hospital with ID "+ i +" is registered");
+                    if (inp2 == 1) {
+                        while (inp3 != 7) {
+                            System.out.println("Welcome S1");
+                            System.out.println(
+                                    "STUDENT MENU\n1. View lecture materials\n2. View assessments\n3. Submit assessment\n4. View grades\n5. View comments\n6. Add comments\n7. Logout");
+                            inp3 = sc.nextInt();
+                            switch (inp3) {
+                                case 1:
+                                    view_lec_func(S1, material0);
+                                    break;
+                                case 2:
+                                    view_ass_func(S1, assessment0);
+                                    break;
+                                case 3:
+                                    if (assessment0.printopenasses_help2(S1) > 0) {
+                                        System.out.println("Pending assessments:");
+                                        S1.printasses(assessment0, S1);
+                                        System.out.println("Enter ID of assessment: ");
+                                        int asid = sc.nextInt();
+                                        S1.submit_ass(S1, asid);
+                                    } else {
+                                        System.out.println("No pending assessment");
+                                    }
+                                    break;
+                                case 4:
+                                    S1.view_grades(S1);
+                                    break;
+                                case 5:
+                                    view_comment_func(S1, comment0);
+                                    break;
+                                case 6:
+                                    add_comment_func(S1, comment0, "S1");
+                                    break;
+                                case 7:
+                                    break;
+
+                            }
+
+                        }
+
                     }
-                    
-                    break;
-                    
-                case 5:
-                    System.out.println("Enter Registered Patient Unique ID: ");
-                    long id1 = sc.nextLong();
-                    int tvar = -1 ;
-                    for(int k=0; k<cit.id.size();k++){
-                        if(cit.id.get(k) == id1){
-                            tvar = 0;
-                            System.out.println("1. Search by area");
-                            System.out.println("2. Search by Vaccine");
-                            System.out.println("3. Exit");
-                            System.out.println("Enter option:");
-                            int op = sc.nextInt();
-                            if(op == 1){
-                                System.out.println("Enter PinCode: ");
-                                int pc1 = sc.nextInt();
-                                sl1.book_slot_pincode(pc1,cit,vac,hos,sl1,id1);
+                    if (inp2 == 2) {
+                        while (inp3 != 7) {
+                            System.out.println("Welcome S2");
+                            System.out.println(
+                                    "STUDENT MENU\n1. View lecture materials\n2. View assessments\n3. Submit assessment\n4. View grades\n5. View comments\n6. Add comments\n7. Logout");
+                            inp3 = sc.nextInt();
+                            switch (inp3) {
+                                case 1:
+                                    view_lec_func(S2, material0);
+                                    break;
+                                case 2:
+                                    view_ass_func(S2, assessment0);
+                                    break;
+                                case 3:
+                                    if (assessment0.printopenasses_help2(S2) > 0) {
+                                        System.out.println("Pending assessments:");
+                                        S2.printasses(assessment0, S2);
+                                        System.out.println("Enter ID of assessment: ");
+                                        int asid = sc.nextInt();
+                                        S2.submit_ass(S2, asid);
+                                    } else {
+                                        System.out.println("No pending assessment");
+                                    }
+                                case 4:
+                                    S2.view_grades(S2);
+                                    break;
+                                case 5:
+                                    view_comment_func(S2, comment0);
+                                    break;
+                                case 6:
+                                    add_comment_func(S2, comment0, "S2");
+                                    break;
+                                case 7:
+                                    break;
+
                             }
-                            else if(op == 2){
-                                System.out.println("Enter Vaccine name: ");
-                                String vn = sc.next();
-                                sl1.book_slot_vaccine(vn,cit,vac,hos,sl1,id1);
-                            }
-                            else{
-                                break;
-                            }
+
                         }
                     }
-                    if(tvar ==-1){
-                        System.out.println("No Patient with ID "+ id1 +" is registered");
+                    if (inp2 != 0 && inp2 != 1 && inp2 != 2) {
+                        System.out.println("Wrong Input!!");
                     }
                     break;
-                case 6:
-                    System.out.println("Enter Hospital Id: ");
-                    int inpid = sc.nextInt();
-                    sl1.check_slot(inpid);
-                    break;
-                case 7:
-                    System.out.println("Enter Patient ID: ");
-                    long uniid = sc.nextLong();
-                    cit.check_vacstatus(uniid);
-                    break;
-	    }
+            }
+        }
     }
-}
 }
