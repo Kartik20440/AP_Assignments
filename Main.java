@@ -1,7 +1,5 @@
 import java.util.*;
 
-//Kartik Jain  2020440  AP Assignment2
-
 interface viewlecfunc {
     public void viewlecmaterial(classmaterial material1);
 }
@@ -18,11 +16,11 @@ interface commoncommentfunc {
 
 class Comments {
     Scanner nsc = new Scanner(System.in);
-    ArrayList<String> name = new ArrayList<>();
-    ArrayList<String> com = new ArrayList<>();
-    ArrayList<String> date = new ArrayList<>();
+    private ArrayList<String> name = new ArrayList<>();
+    private ArrayList<String> com = new ArrayList<>();
+    private ArrayList<String> date = new ArrayList<>();
 
-    void add_comm(String x) {
+    public void add_comm(String x) {
         System.out.println("Enter comment:");
         String abc = nsc.nextLine();
         java.util.Date d = new java.util.Date();
@@ -32,7 +30,7 @@ class Comments {
         date.add(da);
     }
 
-    void view_comm() {
+    public void view_comm() {
         for (int i = 0; i < com.size(); i++) {
             System.out.println(com.get(i));
             System.out.println(date.get(i));
@@ -44,17 +42,17 @@ class Comments {
 
 class classmaterial {
     Scanner s = new Scanner(System.in);
-    ArrayList<Integer> slideinstname = new ArrayList<>();
-    ArrayList<String> topic = new ArrayList<>();
-    ArrayList<Integer> noofslides = new ArrayList<>();
-    ArrayList<ArrayList<String>> content = new ArrayList<>();
-    ArrayList<String> slidedate = new ArrayList<>();
-    ArrayList<Integer> vidinstname = new ArrayList<>();
-    ArrayList<String> vidtopic = new ArrayList<>();
-    ArrayList<String> vidfilename = new ArrayList<>();
-    ArrayList<String> viddate = new ArrayList<>();
+    private ArrayList<Integer> slideinstname = new ArrayList<>();
+    private ArrayList<String> topic = new ArrayList<>();
+    private ArrayList<Integer> noofslides = new ArrayList<>();
+    private ArrayList<ArrayList<String>> content = new ArrayList<>();
+    private ArrayList<String> slidedate = new ArrayList<>();
+    private ArrayList<Integer> vidinstname = new ArrayList<>();
+    private ArrayList<String> vidtopic = new ArrayList<>();
+    private ArrayList<String> vidfilename = new ArrayList<>();
+    private ArrayList<String> viddate = new ArrayList<>();
 
-    void addslidemat(int inst) {
+    public void addslidemat(int inst) {
         String useless = "";
         ArrayList<String> contentofslide = new ArrayList<>();
         System.out.println("Enter topic of slides:");
@@ -77,7 +75,7 @@ class classmaterial {
         slideinstname.add(inst);
     }
 
-    void addvideomat(int inst) {
+    public void addvideomat(int inst) {
         System.out.println("Enter topic of video:");
         String sk = s.nextLine();
         System.out.println("Enter filename of video:");
@@ -95,7 +93,7 @@ class classmaterial {
         }
     }
 
-    void viewlmat() {
+    public void viewlmat() {
         System.out.println("");
         for (int i = 0; i < slidedate.size(); i++) {
             System.out.println("Title: " + topic.get(i));
@@ -121,26 +119,46 @@ class classmaterial {
 class Assessment {
     Scanner sca = new Scanner(System.in);
 
-    ArrayList<String> probstat = new ArrayList<>();
-    ArrayList<Integer> probmaxmarks = new ArrayList<>();
-    ArrayList<String> probstatus = new ArrayList<>();
-    ArrayList<String> quizstat = new ArrayList<>();
-    ArrayList<Integer> quizmaxmarks = new ArrayList<>();
-    ArrayList<String> quizstatus = new ArrayList<>();
-    ArrayList<String> quizsubmission = new ArrayList<>();
-    ArrayList<String> probsubmission = new ArrayList<>();
-    ArrayList<String> quizsubmissionstatus = new ArrayList<>();
-    ArrayList<String> probsubmissionstatus = new ArrayList<>();
+    private ArrayList<String> probstat0 = new ArrayList<>();
+    private ArrayList<Integer> probmaxmarks0 = new ArrayList<>();
+    private ArrayList<String> probstatus0 = new ArrayList<>();
+    private ArrayList<String> quizstat0 = new ArrayList<>();
+    private ArrayList<Integer> quizmaxmarks0 = new ArrayList<>();
+    private ArrayList<String> quizstatus0 = new ArrayList<>();
+    private ArrayList<String> quizsubmission = new ArrayList<>();
+    private ArrayList<String> probsubmission = new ArrayList<>();
+    private ArrayList<String> quizsubmissionstatus = new ArrayList<>();
+    private ArrayList<String> probsubmissionstatus = new ArrayList<>();
+    
+    //Getters
+    public ArrayList<String> probstat() {
+        return probstat0;
+    }
+    public ArrayList<Integer> probmaxmarks() {
+        return probmaxmarks0;
+    }
+    public ArrayList<String> probstatus() {
+        return probstatus0;
+    }
+    public ArrayList<String> quizstat() {
+        return quizstat0;
+    }
+    public ArrayList<Integer> quizmaxmarks() {
+        return quizmaxmarks0;
+    }
+    public ArrayList<String> quizstatus() {
+        return quizstatus0;
+    }
 
-    void addassign(Student sa, Student sb, Student sc) {
+    public void addassign(Student sa, Student sb, Student sc) {
         sca.nextLine();
         System.out.print("Enter problem statement: ");
         String ques = sca.nextLine();
         System.out.print("Enter max marks: ");
         int marks = sca.nextInt();
-        probstat.add(ques);
-        probmaxmarks.add(marks);
-        probstatus.add("Open");
+        probstat().add(ques);
+        probmaxmarks().add(marks);
+        probstatus().add("Open");
         probsubmission.add("");
         probsubmissionstatus.add("Pending");
         sa.pstat.add(ques);
@@ -163,13 +181,13 @@ class Assessment {
         sb.pgradedby.add("");
     }
 
-    void addquz(Student sa, Student sb, Student sc) {
+    public void addquz(Student sa, Student sb, Student sc) {
         sca.nextLine();
         System.out.print("Enter quiz question: ");
         String q = sca.nextLine();
-        quizstat.add(q);
-        quizmaxmarks.add(1);
-        quizstatus.add("Open");
+        quizstat().add(q);
+        quizmaxmarks().add(1);
+        quizstatus().add("Open");
         quizsubmission.add("");
         quizsubmissionstatus.add("Pending");
         sa.qstat.add(q);
@@ -189,30 +207,30 @@ class Assessment {
         sc.qgradedby.add("");
     }
 
-    void view_assessment() {
+    public void view_assessment() {
         int temp = 0;
-        for (int i = 0; i < probstat.size(); i++) {
+        for (int i = 0; i < probstat().size(); i++) {
             System.out
-                    .println("ID: " + temp + " Assignment: " + probstat.get(i) + " Max Marks: " + probmaxmarks.get(i));
+                    .println("ID: " + temp + " Assignment: " + probstat().get(i) + " Max Marks: " + probmaxmarks().get(i));
             System.out.println("--------------");
             temp++;
         }
-        if (quizstat.size() >= 1) {
-            for (int j = 0; j < quizstat.size(); j++) {
-                System.out.println("ID: " + temp + " Question: " + quizstat.get(j));
+        if (quizstat().size() >= 1) {
+            for (int j = 0; j < quizstat().size(); j++) {
+                System.out.println("ID: " + temp + " Question: " + quizstat().get(j));
                 System.out.println("--------------");
                 temp++;
             }
         }
     }
 
-    int printopenasses() {
+    public int printopenasses() {
         int temp = 0;
         int size = 0;
-        for (int i = 0; i < probstat.size(); i++) {
-            if (probstatus.get(i).equals("Open")) {
+        for (int i = 0; i < probstat().size(); i++) {
+            if (probstatus().get(i).equals("Open")) {
                 System.out.println(
-                        "ID: " + temp + " Assignment: " + probstat.get(i) + " Max Marks: " + probmaxmarks.get(i));
+                        "ID: " + temp + " Assignment: " + probstat().get(i) + " Max Marks: " + probmaxmarks().get(i));
                 System.out.println("--------------");
                 temp++;
                 size++;
@@ -220,10 +238,10 @@ class Assessment {
                 temp++;
             }
         }
-        if (quizstat.size() >= 1) {
-            for (int j = 0; j < quizstat.size(); j++) {
-                if (quizstatus.get(j).equals("Open")) {
-                    System.out.println("ID: " + temp + " Question: " + quizstat.get(j));
+        if (quizstat().size() >= 1) {
+            for (int j = 0; j < quizstat().size(); j++) {
+                if (quizstatus().get(j).equals("Open")) {
+                    System.out.println("ID: " + temp + " Question: " + quizstat().get(j));
                     System.out.println("--------------");
                     temp++;
                     size++;
@@ -236,21 +254,21 @@ class Assessment {
         return size;
     }
 
-    void printopenasses_help(Student m) {
+    public void printopenasses_help(Student m) {
         int temp = 0;
-        for (int i = 0; i < probstat.size(); i++) {
-            if (probstatus.get(i).equals("Open") && m.psubmissionstatus.get(i).equals("Pending")) {
+        for (int i = 0; i < probstat().size(); i++) {
+            if (probstatus().get(i).equals("Open") && m.psubmissionstatus.get(i).equals("Pending")) {
                 System.out.println(
-                        "ID: " + temp + " Assignment: " + probstat.get(i) + " Max Marks: " + probmaxmarks.get(i));
+                        "ID: " + temp + " Assignment: " + probstat().get(i) + " Max Marks: " + probmaxmarks().get(i));
                 temp++;
             } else {
                 temp++;
             }
         }
-        if (quizstat.size() >= 1) {
-            for (int j = 0; j < quizstat.size(); j++) {
-                if (quizstatus.get(j).equals("Open") && m.qsubmissionstatus.get(j).equals("Pending")) {
-                    System.out.println("ID: " + temp + " Question: " + quizstat.get(j));
+        if (quizstat().size() >= 1) {
+            for (int j = 0; j < quizstat().size(); j++) {
+                if (quizstatus().get(j).equals("Open") && m.qsubmissionstatus.get(j).equals("Pending")) {
+                    System.out.println("ID: " + temp + " Question: " + quizstat().get(j));
                     temp++;
                 } else {
                     temp++;
@@ -260,16 +278,16 @@ class Assessment {
         System.out.println("");
     }
 
-    int printopenasses_help2(Student m) {
+    public int printopenasses_help2(Student m) {
         int size = 0;
-        for (int i = 0; i < probstat.size(); i++) {
-            if (probstatus.get(i).equals("Open") && m.psubmissionstatus.get(i).equals("Pending")) {
+        for (int i = 0; i < probstat().size(); i++) {
+            if (probstatus().get(i).equals("Open") && m.psubmissionstatus.get(i).equals("Pending")) {
                 size++;
             }
         }
-        if (quizstat.size() >= 1) {
-            for (int j = 0; j < quizstat.size(); j++) {
-                if (quizstatus.get(j).equals("Open") && m.qsubmissionstatus.get(j).equals("Pending")) {
+        if (quizstat().size() >= 1) {
+            for (int j = 0; j < quizstat().size(); j++) {
+                if (quizstatus().get(j).equals("Open") && m.qsubmissionstatus.get(j).equals("Pending")) {
                     size++;
                 }
             }
@@ -280,15 +298,15 @@ class Assessment {
 
 class Instructor implements viewlecfunc, viewassessfunc, commoncommentfunc {
 
-    void addslidematerial(classmaterial material1, int i) {
+    public void addslidematerial(classmaterial material1, int i) {
         material1.addslidemat(i);
     }
 
-    void addvideomaterial(classmaterial material1, int i) {
+    public void addvideomaterial(classmaterial material1, int i) {
         material1.addvideomat(i);
     }
 
-    void view_lec_mat(classmaterial material1) {
+    public void view_lec_mat(classmaterial material1) {
         material1.viewlmat();
     }
 
@@ -312,24 +330,25 @@ class Instructor implements viewlecfunc, viewassessfunc, commoncommentfunc {
         com.view_comm();
     }
 
-    void addassignment(Assessment assessment1, Student sp, Student so, Student si) {
+    public void addassignment(Assessment assessment1, Student sp, Student so, Student si) {
         assessment1.addassign(sp, so, si);
     }
 
-    void addquiz(Assessment assessment1, Student sp, Student so, Student si) {
+    public void addquiz(Assessment assessment1, Student sp, Student so, Student si) {
         assessment1.addquz(sp, so, si);
     }
 
-    int print_open_asses(Assessment assessment1) {
+    public int print_open_asses(Assessment assessment1) {
         int a = assessment1.printopenasses();
         return a;
     }
 
-    int close_assessment(Assessment assessment1, int a, int ind) {
-        if (a + 1 <= assessment1.probstat.size()) {
-            assessment1.probstatus.set(a - ind - 1, "Close");
-        } else if (a + 1 <= assessment1.probstat.size() + assessment1.quizstat.size()) {
-            assessment1.quizstatus.set(a - assessment1.probstat.size(), "Close");
+    public int close_assessment(Assessment assessment1, int a, int ind) {
+        if (a + 1 <= assessment1.probstat().size()) {
+            assessment1.probstatus().set(a - ind - 1, "Close");
+        } 
+        else if (a + 1 <= assessment1.probstat().size() + assessment1.quizstat().size()) {
+            assessment1.quizstatus().set(a - assessment1.probstat().size(), "Close");
         }
         return ind;
     }
@@ -349,7 +368,7 @@ class Student implements viewlecfunc, viewassessfunc, commoncommentfunc {
     ArrayList<String> pgradedby = new ArrayList<>();
     ArrayList<String> qgradedby = new ArrayList<>();
 
-    void view_lec_mat(classmaterial material1) {
+    public void view_lec_mat(classmaterial material1) {
         material1.viewlmat();
     }
 
@@ -373,12 +392,12 @@ class Student implements viewlecfunc, viewassessfunc, commoncommentfunc {
         com.view_comm();
     }
 
-    void printasses(Assessment assessment1, Student su) {
+    public void printasses(Assessment assessment1, Student su) {
 
         assessment1.printopenasses_help(su);
     }
 
-    void submit_ass(Student sin, int asid) {
+    public void submit_ass(Student sin, int asid) {
         if (asid + 1 <= sin.psubmissionstatus.size()) {
             System.out.println("Enter filename of assignment: ");
             s.nextLine();
@@ -402,7 +421,7 @@ class Student implements viewlecfunc, viewassessfunc, commoncommentfunc {
         }
     }
 
-    void view_grades(Student sis) {
+    public void view_grades(Student sis) {
         System.out.println("Graded Submissions:");
         for (int i = 0; i < sis.psubmission.size(); i++) {
             if (!sis.psubmission.get(i).equals("")) {
@@ -527,14 +546,14 @@ class Main {
                                     view_ass_func(I0, assessment0);
                                     System.out.println("Enter ID of assessment to view submissions:");
                                     int key = sc.nextInt();
-                                    int asize = assessment0.probstat.size();
-                                    int qsize = assessment0.quizstat.size();
+                                    int asize = assessment0.probstat().size();
+                                    int qsize = assessment0.quizstat().size();
                                     String helper;
                                     int ind = 0;
                                     ArrayList<Student> temp = new ArrayList<>();
 
                                     if (key + 1 <= asize) {
-                                        helper = assessment0.probstat.get(key);
+                                        helper = assessment0.probstat().get(key);
                                         // System.out.println(helper);
                                         System.out.println("Choose ID from these ungraded submissions:");
                                         for (int i = 0; i < list_of_stud.size(); i++) {
@@ -564,7 +583,7 @@ class Main {
                                     }
 
                                     else if (key + 1 <= (asize + qsize)) {
-                                        helper = assessment0.quizstat.get(key - asize);
+                                        helper = assessment0.quizstat().get(key - asize);
                                         System.out.println("Choose ID from these ungraded submissions");
                                         for (int i = 0; i < list_of_stud.size(); i++) {
                                             if (list_of_stud.get(i).qstat.contains(helper)
@@ -659,14 +678,14 @@ class Main {
                                     view_ass_func(I0, assessment0);
                                     System.out.println("Enter ID of assessment to view submissions:");
                                     int key = sc.nextInt();
-                                    int asize = assessment0.probstat.size();
-                                    int qsize = assessment0.quizstat.size();
+                                    int asize = assessment0.probstat().size();
+                                    int qsize = assessment0.quizstat().size();
                                     String helper;
                                     int ind = 0;
                                     ArrayList<Student> temp = new ArrayList<>();
 
                                     if (key + 1 <= asize) {
-                                        helper = assessment0.probstat.get(key);
+                                        helper = assessment0.probstat().get(key);
                                         // System.out.println(helper);
                                         System.out.println("Choose ID from these ungraded submissions:");
                                         for (int i = 0; i < list_of_stud.size(); i++) {
@@ -696,7 +715,7 @@ class Main {
                                     }
 
                                     else if (key + 1 <= (asize + qsize)) {
-                                        helper = assessment0.quizstat.get(key - asize);
+                                        helper = assessment0.quizstat().get(key - asize);
                                         System.out.println("Choose ID from these ungraded submissions");
                                         for (int i = 0; i < list_of_stud.size(); i++) {
                                             if (list_of_stud.get(i).qstat.contains(helper)
