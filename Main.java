@@ -80,15 +80,21 @@ class classmaterial {
         String sk = s.nextLine();
         System.out.println("Enter filename of video:");
         String fn = s.nextLine();
-        String acc = fn.substring(fn.length() - 4);
-        if (acc.equals(".mp4")) {
-            java.util.Date d = new java.util.Date();
-            String da = d.toString();
-            vidinstname.add(inst);
-            vidtopic.add(sk);
-            vidfilename.add(fn);
-            viddate.add(da);
-        } else {
+        if(fn.length() > 4){
+            String acc = fn.substring(fn.length() - 4);
+            if (acc.equals(".mp4")) {
+                java.util.Date d = new java.util.Date();
+                String da = d.toString();
+                vidinstname.add(inst);
+                vidtopic.add(sk);
+                vidfilename.add(fn);
+                viddate.add(da);
+            } 
+            else {
+                System.out.println("Wrong File Extension!!");
+            }
+        }
+        else {
             System.out.println("Wrong File Extension!!");
         }
     }
